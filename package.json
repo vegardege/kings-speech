@@ -1,0 +1,32 @@
+{
+	"name": "kings-speech",
+	"version": "0.1.0",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"check": "npx @biomejs/biome check .",
+		"check:fix": "npx @biomejs/biome check . --write",
+		"lint": "npx @biomejs/biome lint .",
+		"lint:fix": "npx @biomejs/biome lint . --write",
+		"format": "npx @biomejs/biome format .",
+		"format:fix": "npx @biomejs/biome format . --write"
+	},
+	"dependencies": {
+		"next": "16.0.7",
+		"react": "19.2.1",
+		"react-dom": "19.2.1"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.6",
+		"@tailwindcss/postcss": "^4.1.14",
+		"@types/node": "^24",
+		"@types/react": "^19",
+		"@types/react-dom": "^19",
+		"postcss": "^8.5.6",
+		"tailwindcss": "^4.1.14",
+		"typescript": "^5"
+	}
+}
