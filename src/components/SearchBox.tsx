@@ -16,7 +16,10 @@ export function SearchBox({ words }: SearchBoxProps) {
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	const suggestions = useMemo(() => {
-		if (!query.trim()) return [];
+		if (!query.trim()) {
+			// Show top 10 words by default when search is empty
+			return words.slice(0, 10);
+		}
 
 		const lowerQuery = query.toLowerCase();
 		return words
@@ -99,7 +102,7 @@ export function SearchBox({ words }: SearchBoxProps) {
 										ODDS
 									</span>
 								)}
-								<span>{suggestion.totalCount}×</span>
+								<span>{suggestion.speechPercentage.toFixed(0)}%</span>
 							</span>
 						</button>
 					))}

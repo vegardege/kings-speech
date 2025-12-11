@@ -17,34 +17,44 @@ export function getDatabase() {
 
 export interface WordSearchResult {
 	word: string;
-	totalCount: number;
+	speechCount: number;
+	speechPercentage: number;
 	type: "word" | "odds";
 }
 
 export function getAllWordsForSearch(): WordSearchResult[] {
 	const db = getDatabase();
 
-	// Get all words from word_count
+	// Get total number of speeches
+	const totalSpeeches = (
+		db.prepare("SELECT COUNT(*) as count FROM speech").get() as {
+			count: number;
+		}
+	).count;
+
+	// Get all words from word_count with number of speeches they appear in
 	const wordCountResults = db
 		.prepare(
 			`
-		SELECT word, SUM(count) as totalCount
+		SELECT word, COUNT(DISTINCT year) as speechCount
 		FROM word_count
+		WHERE count > 0
 		GROUP BY word
 	`,
 		)
-		.all() as { word: string; totalCount: number }[];
+		.all() as { word: string; speechCount: number }[];
 
-	// Get all words from odds_count
+	// Get all words from odds_count with number of speeches they appear in
 	const oddsCountResults = db
 		.prepare(
 			`
-		SELECT word, SUM(count) as totalCount
+		SELECT word, COUNT(DISTINCT year) as speechCount
 		FROM odds_count
+		WHERE count > 0
 		GROUP BY word
 	`,
 		)
-		.all() as { word: string; totalCount: number }[];
+		.all() as { word: string; speechCount: number }[];
 
 	db.close();
 
@@ -55,20 +65,22 @@ export function getAllWordsForSearch(): WordSearchResult[] {
 	const results: WordSearchResult[] = [
 		...oddsCountResults.map((r) => ({
 			word: r.word,
-			totalCount: r.totalCount,
+			speechCount: r.speechCount,
+			speechPercentage: (r.speechCount / totalSpeeches) * 100,
 			type: "odds" as const,
 		})),
 		...wordCountResults
 			.filter((r) => !oddsWords.has(r.word))
 			.map((r) => ({
 				word: r.word,
-				totalCount: r.totalCount,
+				speechCount: r.speechCount,
+				speechPercentage: (r.speechCount / totalSpeeches) * 100,
 				type: "word" as const,
 			})),
 	];
 
-	// Sort all words together by totalCount descending
-	results.sort((a, b) => b.totalCount - a.totalCount);
+	// Sort all words together by speechCount descending
+	results.sort((a, b) => b.speechCount - a.speechCount);
 
 	return results;
 }

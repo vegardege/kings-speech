@@ -159,7 +159,7 @@ export function YearlyCountChart({ data }: YearlyCountChartProps) {
 			const hoverText = barGroup
 				.append("text")
 				.attr("x", x + width / 2)
-				.attr("y", y + 14)
+				.attr("y", y + 18)
 				.attr("text-anchor", "middle")
 				.style("font-size", "11px")
 				.style("font-weight", "600")
@@ -192,7 +192,15 @@ export function YearlyCountChart({ data }: YearlyCountChartProps) {
 			.style("font-size", "12px");
 
 		// Y axis - in fixed area
-		yAxisGroup.call(d3.axisLeft(yScale).ticks(5));
+		let ticks: number[] = [];
+		if (maxCount <= 5) {
+			ticks = d3.range(0, maxCount + 1);
+		} else {
+			ticks = yScale.ticks(5).filter((t) => Number.isInteger(t));
+		}
+		yAxisGroup.call(
+			d3.axisLeft(yScale).tickValues(ticks).tickFormat(d3.format("d")),
+		);
 
 		// Monarch bands
 		const monarchSegments = groupByMonarch(data);
