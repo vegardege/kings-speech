@@ -72,3 +72,50 @@ export function getAllWordsForSearch(): WordSearchResult[] {
 
 	return results;
 }
+
+export interface YearData {
+	year: number;
+	count: number;
+	monarch: string;
+}
+
+export function getWordCountsByYear(
+	word: string,
+	table: "word_count" | "odds_count",
+): YearData[] {
+	const db = getDatabase();
+
+	// Get all speeches with monarch info
+	const speeches = db
+		.prepare("SELECT year, monarch FROM speech ORDER BY year")
+		.all() as { year: number; monarch: string }[];
+
+	// Get word counts for this specific word
+	const counts = db
+		.prepare(`SELECT year, count FROM ${table} WHERE word = ?`)
+		.all(word) as { year: number; count: number }[];
+
+	db.close();
+
+	// Create a map of year -> count
+	const countMap = new Map(counts.map((c) => [c.year, c.count]));
+
+	// Combine: all years from speeches, with counts (0 if not present)
+	return speeches.map((s) => ({
+		year: s.year,
+		count: countMap.get(s.year) ?? 0,
+		monarch: s.monarch,
+	}));
+}
+
+export function getWordTotalCount(
+	word: string,
+	table: "word_count" | "odds_count",
+): number {
+	const db = getDatabase();
+	const result = db
+		.prepare(`SELECT SUM(count) as total FROM ${table} WHERE word = ?`)
+		.get(word) as { total: number | null };
+	db.close();
+	return result.total ?? 0;
+}

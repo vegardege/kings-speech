@@ -1,5 +1,10 @@
 import Link from "next/link";
-import { getDatabase } from "@/lib/database";
+import { YearlyCountChart } from "@/components/YearlyCountChart";
+import {
+	getDatabase,
+	getWordCountsByYear,
+	getWordTotalCount,
+} from "@/lib/database";
 
 interface OddsPageProps {
 	params: Promise<{
@@ -15,16 +20,46 @@ export async function generateStaticParams() {
 	db.close();
 
 	return words.map((w) => ({
-		word: w.word,
+		word: encodeURIComponent(w.word),
 	}));
 }
 
 export default async function OddsPage({ params }: OddsPageProps) {
-	const { word } = await params;
+	const { word: encodedWord } = await params;
+	const word = decodeURIComponent(encodedWord);
+	const totalCount = getWordTotalCount(word, "odds_count");
+
+	if (totalCount === 0) {
+		return (
+			<main className="min-h-screen bg-[#FAF9F7] px-4 py-8">
+				<div className="mx-auto max-w-4xl">
+					<Link
+						href="/"
+						className="text-[#C60C30] hover:underline mb-4 inline-block"
+					>
+						← Back to search
+					</Link>
+
+					<h1 className="text-4xl font-bold text-gray-900 mb-4">
+						{word}
+						<span className="ml-3 px-3 py-1 bg-[#C60C30] text-white text-lg rounded">
+							ODDS
+						</span>
+					</h1>
+
+					<p className="text-3xl text-gray-400 text-center py-16">
+						This word was never mentioned in any speech.
+					</p>
+				</div>
+			</main>
+		);
+	}
+
+	const yearlyData = getWordCountsByYear(word, "odds_count");
 
 	return (
 		<main className="min-h-screen bg-[#FAF9F7] px-4 py-8">
-			<div className="mx-auto max-w-4xl">
+			<div className="mx-auto max-w-6xl">
 				<Link
 					href="/"
 					className="text-[#C60C30] hover:underline mb-4 inline-block"
@@ -32,19 +67,17 @@ export default async function OddsPage({ params }: OddsPageProps) {
 					← Back to search
 				</Link>
 
-				<h1 className="text-4xl font-bold text-gray-900 mb-4">
+				<h1 className="text-4xl font-bold text-gray-900 mb-2">
 					{word}
 					<span className="ml-3 px-3 py-1 bg-[#C60C30] text-white text-lg rounded">
 						ODDS
 					</span>
 				</h1>
+				<p className="text-gray-600 mb-8">
+					Total mentions: <span className="font-semibold">{totalCount}</span>
+				</p>
 
-				<div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
-					<p className="text-gray-600">
-						Betting statistics and usage patterns for this word will be
-						displayed here.
-					</p>
-				</div>
+				<YearlyCountChart data={yearlyData} />
 			</div>
 		</main>
 	);

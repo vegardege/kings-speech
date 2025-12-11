@@ -25,8 +25,9 @@ export function SearchBox({ words }: SearchBoxProps) {
 	}, [query, words]);
 
 	const handleSelect = (word: WordSearchResult) => {
+		const encodedWord = encodeURIComponent(word.word);
 		const url =
-			word.type === "odds" ? `/odds/${word.word}` : `/word/${word.word}`;
+			word.type === "odds" ? `/odds/${encodedWord}` : `/word/${encodedWord}`;
 		router.push(url);
 		setQuery("");
 		setIsOpen(false);
