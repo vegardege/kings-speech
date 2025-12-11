@@ -1,0 +1,26 @@
+{
+	"metadata": {
+		"title": "Kongens nytårstale",
+		"description": "Statistik og analyse af den danske monarks nytårstaler"
+	},
+	"home": {
+		"title": "Kongens nytårstale",
+		"description": "Statistik og analyse af den danske monarks nytårstaler",
+		"searchPrompt": "Søg efter et ord for at se dets brug gennem årene, eller udforsk odds for ord der ofte satses på."
+	},
+	"word": {
+		"backToSearch": "← Tilbage til søgning",
+		"totalMentions": "Totale nævnelser:",
+		"neverMentioned": "Dette ord blev aldrig nævnt i nogen tale."
+	},
+	"odds": {
+		"backToSearch": "← Tilbage til søgning",
+		"totalMentions": "Totale nævnelser:",
+		"neverMentioned": "Dette ord blev aldrig nævnt i nogen tale.",
+		"badge": "ODDS"
+	},
+	"common": {
+		"readInDanish": "Læs på dansk",
+		"readInEnglish": "Read in English"
+	}
+}

@@ -276,7 +276,7 @@ export function YearlyCountChart({ data }: YearlyCountChartProps) {
 		>
 			<div className="relative flex">
 				{/* Fixed Y-axis */}
-				<div className="flex-shrink-0">
+				<div className="shrink-0">
 					<svg
 						ref={yAxisRef}
 						width={margin.left}

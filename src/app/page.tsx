@@ -1,31 +1,22 @@
-import { SearchBox } from "@/components/SearchBox";
-import { getAllWordsForSearch } from "@/lib/database";
+"use client";
 
-export default function HomePage() {
-	const words = getAllWordsForSearch();
+import { useEffect } from "react";
+import { routing } from "@/i18n/routing";
 
-	return (
-		<main className="min-h-screen bg-[#FAF9F7] px-4 py-8">
-			<div className="mx-auto max-w-4xl">
-				<h1 className="text-4xl font-bold text-[#C60C30] mb-4">
-					King's Speech
-				</h1>
-				<p className="text-gray-700 mb-8">
-					Statistics and analysis of the Danish Monarch's New Year's Eve
-					speeches
-				</p>
+export default function RootPage() {
+	useEffect(() => {
+		// Detect browser language
+		const browserLang = navigator.language.split("-")[0];
 
-				<div className="my-12">
-					<SearchBox words={words} />
-				</div>
+		// Check if browser language is supported, fallback to default
+		const locale = routing.locales.includes(browserLang as "en" | "da")
+			? browserLang
+			: routing.defaultLocale;
 
-				<div className="mt-12 text-sm text-gray-600">
-					<p>
-						Search for any word to see its usage across the years, or explore
-						the odds for commonly bet-upon words.
-					</p>
-				</div>
-			</div>
-		</main>
-	);
+		// Redirect to the appropriate locale
+		window.location.href = `/${locale}`;
+	}, []);
+
+	// Show nothing while redirecting
+	return null;
 }

@@ -1,0 +1,26 @@
+{
+	"metadata": {
+		"title": "King's Speech",
+		"description": "Statistics and analysis of the Danish Monarch's New Year's Eve speeches"
+	},
+	"home": {
+		"title": "King's Speech",
+		"description": "Statistics and analysis of the Danish Monarch's New Year's Eve speeches",
+		"searchPrompt": "Search for any word to see its usage across the years, or explore the odds for commonly bet-upon words."
+	},
+	"word": {
+		"backToSearch": "← Back to search",
+		"totalMentions": "Total mentions:",
+		"neverMentioned": "This word was never mentioned in any speech."
+	},
+	"odds": {
+		"backToSearch": "← Back to search",
+		"totalMentions": "Total mentions:",
+		"neverMentioned": "This word was never mentioned in any speech.",
+		"badge": "ODDS"
+	},
+	"common": {
+		"readInDanish": "Læs på dansk",
+		"readInEnglish": "Read in English"
+	}
+}

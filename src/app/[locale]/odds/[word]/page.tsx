@@ -1,5 +1,6 @@
-import Link from "next/link";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { YearlyCountChart } from "@/components/YearlyCountChart";
+import { Link, routing } from "@/i18n/routing";
 import {
 	getDatabase,
 	getWordCountsByYear,
@@ -8,6 +9,7 @@ import {
 
 interface OddsPageProps {
 	params: Promise<{
+		locale: string;
 		word: string;
 	}>;
 }
@@ -19,13 +21,25 @@ export async function generateStaticParams() {
 	}[];
 	db.close();
 
-	return words.map((w) => ({
-		word: encodeURIComponent(w.word),
-	}));
+	// Generate params for each locale and each word
+	const params = [];
+	for (const locale of routing.locales) {
+		for (const w of words) {
+			params.push({
+				locale,
+				word: encodeURIComponent(w.word),
+			});
+		}
+	}
+
+	return params;
 }
 
 export default async function OddsPage({ params }: OddsPageProps) {
-	const { word: encodedWord } = await params;
+	const { locale, word: encodedWord } = await params;
+	setRequestLocale(locale);
+
+	const t = await getTranslations("odds");
 	const word = decodeURIComponent(encodedWord);
 	const totalCount = getWordTotalCount(word, "odds_count");
 
@@ -37,18 +51,18 @@ export default async function OddsPage({ params }: OddsPageProps) {
 						href="/"
 						className="text-[#C60C30] hover:underline mb-4 inline-block"
 					>
-						← Back to search
+						{t("backToSearch")}
 					</Link>
 
 					<h1 className="text-4xl font-bold text-gray-900 mb-4">
 						{word}
 						<span className="ml-3 px-3 py-1 bg-[#C60C30] text-white text-lg rounded">
-							ODDS
+							{t("badge")}
 						</span>
 					</h1>
 
 					<p className="text-3xl text-gray-400 text-center py-16">
-						This word was never mentioned in any speech.
+						{t("neverMentioned")}
 					</p>
 				</div>
 			</main>
@@ -64,17 +78,18 @@ export default async function OddsPage({ params }: OddsPageProps) {
 					href="/"
 					className="text-[#C60C30] hover:underline mb-4 inline-block"
 				>
-					← Back to search
+					{t("backToSearch")}
 				</Link>
 
 				<h1 className="text-4xl font-bold text-gray-900 mb-2">
 					{word}
 					<span className="ml-3 px-3 py-1 bg-[#C60C30] text-white text-lg rounded">
-						ODDS
+						{t("badge")}
 					</span>
 				</h1>
 				<p className="text-gray-600 mb-8">
-					Total mentions: <span className="font-semibold">{totalCount}</span>
+					{t("totalMentions")}{" "}
+					<span className="font-semibold">{totalCount}</span>
 				</p>
 
 				<YearlyCountChart data={yearlyData} />

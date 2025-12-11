@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
+import { useRouter } from "@/i18n/routing";
 import type { WordSearchResult } from "@/lib/database";
 
 interface SearchBoxProps {
