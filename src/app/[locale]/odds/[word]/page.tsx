@@ -14,26 +14,14 @@ interface OddsPageProps {
 	}>;
 }
 
+// Don't pre-generate any pages at build time - generate on-demand
 export async function generateStaticParams() {
-	const db = getDatabase();
-	const words = db.prepare("SELECT DISTINCT word FROM odds_count").all() as {
-		word: string;
-	}[];
-	db.close();
-
-	// Generate params for each locale and each word
-	const params = [];
-	for (const locale of routing.locales) {
-		for (const w of words) {
-			params.push({
-				locale,
-				word: encodeURIComponent(w.word),
-			});
-		}
-	}
-
-	return params;
+	return [];
 }
+
+// Revalidate every 24 hours (data rarely changes)
+// Once generated, pages will be cached for 24h
+export const revalidate = 86400;
 
 export default async function OddsPage({ params }: OddsPageProps) {
 	const { locale, word: encodedWord } = await params;
@@ -83,7 +71,6 @@ export default async function OddsPage({ params }: OddsPageProps) {
 			LIMIT 1`,
 		)
 		.get(word) as { year: number; monarch: string } | undefined;
-	db.close();
 
 	const currentYear = new Date().getFullYear();
 	const yearsAgo = lastMention ? currentYear - lastMention.year : Infinity;

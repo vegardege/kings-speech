@@ -10,9 +10,16 @@ function getDatabasePath(): string {
 	return join(homedir(), ".local", "share", "royal-pipes", "analytics.db");
 }
 
-export function getDatabase() {
-	const dbPath = getDatabasePath();
-	return new Database(dbPath, { readonly: true });
+// Singleton database connection for better performance
+// SQLite handles concurrent reads well, so we can reuse the connection
+let db: Database.Database | null = null;
+
+export function getDatabase(): Database.Database {
+	if (!db) {
+		const dbPath = getDatabasePath();
+		db = new Database(dbPath, { readonly: true });
+	}
+	return db;
 }
 
 export interface WordSearchResult {
@@ -56,8 +63,6 @@ export function getAllWordsForSearch(): WordSearchResult[] {
 	`,
 		)
 		.all() as { word: string; speechCount: number }[];
-
-	db.close();
 
 	// Combine and mark each word with its type
 	// If a word appears in both, prefer odds (since that's more specific)
@@ -114,8 +119,6 @@ export function getWordCountsByYear(
 		.prepare(`SELECT year, count FROM ${table} WHERE word = ?`)
 		.all(word) as { year: number; count: number }[];
 
-	db.close();
-
 	// Create a map of year -> count
 	const countMap = new Map(counts.map((c) => [c.year, c.count]));
 
@@ -135,7 +138,6 @@ export function getWordTotalCount(
 	const result = db
 		.prepare(`SELECT SUM(count) as total FROM ${table} WHERE word = ?`)
 		.get(word) as { total: number | null };
-	db.close();
 	return result.total ?? 0;
 }
 
@@ -194,6 +196,5 @@ export function getAllOddsWords(): OddsWord[] {
 		};
 	});
 
-	db.close();
 	return results;
 }
