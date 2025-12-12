@@ -3,6 +3,21 @@
 		"title": "King's Speech",
 		"description": "Statistics and analysis of the Danish Monarch's New Year's Eve speeches"
 	},
+	"navigation": {
+		"home": "Home",
+		"search": "Search",
+		"menu": "Menu",
+		"close": "Close",
+		"closeSearch": "Close search"
+	},
+	"languageToggle": {
+		"danish": "Dansk",
+		"english": "English"
+	},
+	"search": {
+		"placeholder": "Search for words...",
+		"placeholderAnimated": "Search for words..."
+	},
 	"home": {
 		"header": "New Year's Eve is approaching!",
 		"subHeader": "Is Frederik X going to say",

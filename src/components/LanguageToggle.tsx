@@ -1,8 +1,10 @@
 "use client";
 
 import { useParams, usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export function LanguageToggle() {
+	const t = useTranslations("languageToggle");
 	const pathname = usePathname();
 	const params = useParams();
 	const currentLocale = params.locale as string;
@@ -20,7 +22,7 @@ export function LanguageToggle() {
 			href={newPath}
 			className="text-sm text-white hover:opacity-80 transition-opacity"
 		>
-			{otherLocale === "da" ? "Dansk" : "English"}
+			{otherLocale === "da" ? t("danish") : t("english")}
 		</a>
 	);
 }

@@ -3,6 +3,21 @@
 		"title": "Kongens nytårstale",
 		"description": "Statistik og analyse af den danske monarks nytårstaler"
 	},
+	"navigation": {
+		"home": "Hjem",
+		"search": "Søg",
+		"menu": "Menu",
+		"close": "Luk",
+		"closeSearch": "Luk søgning"
+	},
+	"languageToggle": {
+		"danish": "Dansk",
+		"english": "English"
+	},
+	"search": {
+		"placeholder": "Søg efter ord...",
+		"placeholderAnimated": "Søg efter ord..."
+	},
 	"home": {
 		"header": "Nytårstalen nærmer sig!",
 		"subHeader": "Vil Frederik X sige",

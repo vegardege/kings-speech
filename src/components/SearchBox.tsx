@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/routing";
 import type { WordSearchResult } from "@/lib/database";
 
@@ -16,6 +17,7 @@ export function SearchBox({
 	onClose,
 	variant = "default",
 }: SearchBoxProps) {
+	const t = useTranslations("search");
 	const [query, setQuery] = useState("");
 	const [selectedIndex, setSelectedIndex] = useState(0);
 	const [isOpen, setIsOpen] = useState(false);
@@ -162,7 +164,7 @@ export function SearchBox({
 					setIsOpen(true);
 					setIsFocused(true);
 					if (variant === "default") {
-						setPlaceholder("Søg efter ord...");
+						setPlaceholder(t("placeholderAnimated"));
 					}
 				}}
 				onBlur={() => {
@@ -171,7 +173,7 @@ export function SearchBox({
 					setIsFocused(false);
 				}}
 				onKeyDown={handleKeyDown}
-				placeholder={variant === "default" ? placeholder : "Søg efter ord..."}
+				placeholder={variant === "default" ? placeholder : t("placeholder")}
 				className={inputClasses}
 			/>
 

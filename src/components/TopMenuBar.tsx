@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import type { WordSearchResult } from "@/lib/database";
 import { LanguageToggle } from "./LanguageToggle";
@@ -11,6 +12,7 @@ interface TopMenuBarProps {
 }
 
 export function TopMenuBar({ words }: TopMenuBarProps) {
+	const t = useTranslations("navigation");
 	const [searchExpanded, setSearchExpanded] = useState(false);
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -24,7 +26,7 @@ export function TopMenuBar({ words }: TopMenuBarProps) {
 								href="/"
 								className="text-white font-medium hover:opacity-80 transition-opacity"
 							>
-								Home
+								{t("home")}
 							</Link>
 						</div>
 
@@ -36,7 +38,7 @@ export function TopMenuBar({ words }: TopMenuBarProps) {
 										type="button"
 										onClick={() => setSearchExpanded(true)}
 										className="text-white hover:opacity-80 transition-opacity p-2"
-										aria-label="Search"
+										aria-label={t("search")}
 									>
 										<svg
 											className="w-5 h-5"
@@ -44,7 +46,7 @@ export function TopMenuBar({ words }: TopMenuBarProps) {
 											stroke="currentColor"
 											viewBox="0 0 24 24"
 										>
-											<title>Search</title>
+											<title>{t("search")}</title>
 											<path
 												strokeLinecap="round"
 												strokeLinejoin="round"
@@ -64,7 +66,7 @@ export function TopMenuBar({ words }: TopMenuBarProps) {
 										type="button"
 										onClick={() => setSearchExpanded(true)}
 										className="text-white hover:opacity-80 transition-opacity p-2"
-										aria-label="Search"
+										aria-label={t("search")}
 									>
 										<svg
 											className="w-5 h-5"
@@ -72,7 +74,7 @@ export function TopMenuBar({ words }: TopMenuBarProps) {
 											stroke="currentColor"
 											viewBox="0 0 24 24"
 										>
-											<title>Search</title>
+											<title>{t("search")}</title>
 											<path
 												strokeLinecap="round"
 												strokeLinejoin="round"
@@ -85,7 +87,7 @@ export function TopMenuBar({ words }: TopMenuBarProps) {
 										type="button"
 										onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
 										className="text-white hover:opacity-80 transition-opacity p-2"
-										aria-label="Menu"
+										aria-label={t("menu")}
 									>
 										<svg
 											className="w-6 h-6"
@@ -93,7 +95,7 @@ export function TopMenuBar({ words }: TopMenuBarProps) {
 											stroke="currentColor"
 											viewBox="0 0 24 24"
 										>
-											<title>Menu</title>
+											<title>{t("menu")}</title>
 											{mobileMenuOpen ? (
 												<path
 													strokeLinecap="round"
@@ -128,7 +130,7 @@ export function TopMenuBar({ words }: TopMenuBarProps) {
 									type="button"
 									onClick={() => setSearchExpanded(false)}
 									className="text-white hover:opacity-80 transition-opacity mx-4"
-									aria-label="Close search"
+									aria-label={t("closeSearch")}
 								>
 									<svg
 										className="w-5 h-5"
@@ -136,7 +138,7 @@ export function TopMenuBar({ words }: TopMenuBarProps) {
 										stroke="currentColor"
 										viewBox="0 0 24 24"
 									>
-										<title>Close</title>
+										<title>{t("close")}</title>
 										<path
 											strokeLinecap="round"
 											strokeLinejoin="round"
@@ -159,7 +161,7 @@ export function TopMenuBar({ words }: TopMenuBarProps) {
 							className="block text-white font-medium hover:opacity-80 transition-opacity py-2"
 							onClick={() => setMobileMenuOpen(false)}
 						>
-							Home
+							{t("home")}
 						</Link>
 						<div className="pt-2 border-t border-red-800">
 							<LanguageToggle />
