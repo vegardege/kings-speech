@@ -143,7 +143,7 @@ export default async function OddsListPage({ params }: OddsListPageProps) {
 													className="px-6 py-4 text-center text-gray-600 text-sm"
 												>
 													{t.rich("lastMentionedBy", {
-														monarch: item.lastMentionedMonarch,
+														monarch: item.lastMentionedMonarch ?? "",
 														year: item.lastMentioned,
 														strong: (chunks) => <strong>{chunks}</strong>,
 													})}
@@ -245,7 +245,7 @@ export default async function OddsListPage({ params }: OddsListPageProps) {
 								) : (
 									<div className="text-sm text-gray-600">
 										{t.rich("lastMentionedBy", {
-											monarch: item.lastMentionedMonarch,
+											monarch: item.lastMentionedMonarch ?? "",
 											year: item.lastMentioned,
 											strong: (chunks) => <strong>{chunks}</strong>,
 										})}
