@@ -6,8 +6,9 @@ import {
 	getTranslations,
 	setRequestLocale,
 } from "next-intl/server";
-import { LanguageToggle } from "@/components/LanguageToggle";
+import { TopMenuBar } from "@/components/TopMenuBar";
 import { routing } from "@/i18n/routing";
+import { getAllWordsForSearch } from "@/lib/database";
 import "../globals.css";
 
 interface LocaleLayoutProps {
@@ -50,13 +51,14 @@ export default async function LocaleLayout({
 	// Get messages for client components
 	const messages = await getMessages();
 
+	// Get words for search
+	const words = getAllWordsForSearch();
+
 	return (
 		<html lang={locale}>
 			<body>
 				<NextIntlClientProvider messages={messages}>
-					<div className="fixed top-4 right-4 z-50">
-						<LanguageToggle />
-					</div>
+					<TopMenuBar words={words} />
 					{children}
 				</NextIntlClientProvider>
 			</body>

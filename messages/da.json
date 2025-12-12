@@ -4,8 +4,8 @@
 		"description": "Statistik og analyse af den danske monarks nytårstaler"
 	},
 	"home": {
-		"title": "Kongens nytårstale",
-		"description": "Statistik og analyse af den danske monarks nytårstaler",
+		"header": "Nytårstalen nærmer sig!",
+		"subHeader": "Vil Frederik X sige",
 		"searchPrompt": "Søg efter et ord for at se dets brug gennem årene, eller udforsk odds for ord der ofte satses på."
 	},
 	"word": {
@@ -20,7 +20,7 @@
 		"badge": "ODDS"
 	},
 	"common": {
-		"readInDanish": "Læs på dansk",
-		"readInEnglish": "Read in English"
+		"readInDanish": "Dansk",
+		"readInEnglish": "English"
 	}
 }

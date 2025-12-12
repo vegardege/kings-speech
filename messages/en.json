@@ -4,8 +4,8 @@
 		"description": "Statistics and analysis of the Danish Monarch's New Year's Eve speeches"
 	},
 	"home": {
-		"title": "King's Speech",
-		"description": "Statistics and analysis of the Danish Monarch's New Year's Eve speeches",
+		"header": "New Year's Eve is approaching!",
+		"subHeader": "Is Frederik X going to say",
 		"searchPrompt": "Search for any word to see its usage across the years, or explore the odds for commonly bet-upon words."
 	},
 	"word": {

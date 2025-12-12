@@ -16,12 +16,9 @@ export default async function HomePage({ params }: HomePageProps) {
 	return (
 		<main className="min-h-screen bg-[#FAF9F7] px-4 py-8">
 			<div className="mx-auto max-w-4xl">
-				<h1 className="text-4xl font-bold text-[#C60C30] mb-4">{t("title")}</h1>
-				<p className="text-gray-700 mb-8">{t("description")}</p>
-
-				<div className="my-12">
-					<SearchBox words={words} />
-				</div>
+				<p className="text-gray-700 text-3xl mt-8 mb-2">{t("header")}</p>
+				<p className="text-gray-700 text-xl mt-8 mb-2">{t("subHeader")}</p>
+				<SearchBox words={words} />
 
 				<div className="mt-12 text-sm text-gray-600">
 					<p>{t("searchPrompt")}</p>

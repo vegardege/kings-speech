@@ -18,9 +18,9 @@ export function LanguageToggle() {
 	return (
 		<a
 			href={newPath}
-			className="text-sm text-gray-600 hover:text-[#C60C30] transition-colors"
+			className="text-sm text-white hover:opacity-80 transition-opacity"
 		>
-			{otherLocale === "da" ? "Læs på dansk" : "Read in English"}
+			{otherLocale === "da" ? "Dansk" : "English"}
 		</a>
 	);
 }

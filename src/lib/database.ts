@@ -19,6 +19,7 @@ export interface WordSearchResult {
 	word: string;
 	speechCount: number;
 	speechPercentage: number;
+	isStopword: boolean;
 	type: "word" | "odds";
 }
 
@@ -36,13 +37,13 @@ export function getAllWordsForSearch(): WordSearchResult[] {
 	const wordCountResults = db
 		.prepare(
 			`
-		SELECT word, COUNT(DISTINCT year) as speechCount
+		SELECT word, is_stopword AS isStopword, COUNT(DISTINCT year) as speechCount
 		FROM word_count
 		WHERE count > 0
-		GROUP BY word
+		GROUP BY word, is_stopword
 	`,
 		)
-		.all() as { word: string; speechCount: number }[];
+		.all() as { word: string; isStopword: boolean; speechCount: number }[];
 
 	// Get all words from odds_count with number of speeches they appear in
 	const oddsCountResults = db
@@ -63,24 +64,30 @@ export function getAllWordsForSearch(): WordSearchResult[] {
 	const oddsWords = new Set(oddsCountResults.map((r) => r.word));
 
 	const results: WordSearchResult[] = [
-		...oddsCountResults.map((r) => ({
-			word: r.word,
-			speechCount: r.speechCount,
-			speechPercentage: (r.speechCount / totalSpeeches) * 100,
-			type: "odds" as const,
-		})),
 		...wordCountResults
 			.filter((r) => !oddsWords.has(r.word))
 			.map((r) => ({
 				word: r.word,
+				isStopword: r.isStopword,
 				speechCount: r.speechCount,
 				speechPercentage: (r.speechCount / totalSpeeches) * 100,
 				type: "word" as const,
 			})),
+		...oddsCountResults.map((r) => ({
+			word: r.word,
+			isStopword: false,
+			speechCount: r.speechCount,
+			speechPercentage: (r.speechCount / totalSpeeches) * 100,
+			type: "odds" as const,
+		})),
 	];
 
 	// Sort all words together by speechCount descending
-	results.sort((a, b) => b.speechCount - a.speechCount);
+	results.sort(
+		(a, b) =>
+			b.speechCount - a.speechCount ||
+			a.word.localeCompare(b.word, undefined, { sensitivity: "base" }),
+	);
 
 	return results;
 }

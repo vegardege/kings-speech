@@ -1,31 +1,108 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "@/i18n/routing";
 import type { WordSearchResult } from "@/lib/database";
 
 interface SearchBoxProps {
 	words: WordSearchResult[];
+	onClose?: () => void;
+	autoFocus?: boolean;
+	variant?: "default" | "compact";
 }
 
-export function SearchBox({ words }: SearchBoxProps) {
+export function SearchBox({
+	words,
+	onClose,
+	variant = "default",
+}: SearchBoxProps) {
 	const [query, setQuery] = useState("");
 	const [selectedIndex, setSelectedIndex] = useState(0);
 	const [isOpen, setIsOpen] = useState(false);
+	const [placeholder, setPlaceholder] = useState("");
+	const [isFocused, setIsFocused] = useState(false);
 	const router = useRouter();
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	const suggestions = useMemo(() => {
 		if (!query.trim()) {
-			// Show top 10 words by default when search is empty
-			return words.slice(0, 10);
+			return words
+				.filter((w: WordSearchResult) => {
+					return w.type === "word" && !w.isStopword;
+				})
+				.slice(0, 8);
 		}
 
 		const lowerQuery = query.toLowerCase();
 		return words
 			.filter((w) => w.word.toLowerCase().startsWith(lowerQuery))
-			.slice(0, 10); // Limit to top 10 suggestions
+			.slice(0, 8);
 	}, [query, words]);
+
+	// Animated typing effect for placeholder (only for default variant)
+	useEffect(() => {
+		if (variant !== "default" || isFocused) {
+			return;
+		}
+
+		const exampleWords = [
+			"Søens Folk",
+			"klimaforandringer",
+			"sundhedspersonalet",
+			"VM i fodbold",
+			"Store Bededag",
+		];
+
+		let currentWordIndex = 0;
+		let currentText = "";
+		let isDeleting = false;
+		let charIndex = 0;
+
+		const typeSpeed = 50; // ms per character when typing
+		const deleteSpeed = 50; // ms per character when deleting
+		const pauseAfterWord = 2000; // ms to wait before deleting
+		const pauseAfterDelete = 500; // ms to wait before typing next word
+
+		const animate = () => {
+			const currentWord = exampleWords[currentWordIndex];
+
+			if (!isDeleting) {
+				// Typing
+				if (charIndex < currentWord.length) {
+					currentText = currentWord.substring(0, charIndex + 1);
+					setPlaceholder(currentText);
+					charIndex++;
+					return typeSpeed;
+				}
+				// Finished typing, wait then start deleting
+				isDeleting = true;
+				return pauseAfterWord;
+			}
+			// Deleting
+			if (charIndex > 0) {
+				charIndex--;
+				currentText = currentWord.substring(0, charIndex);
+				setPlaceholder(currentText);
+				return deleteSpeed;
+			}
+			// Finished deleting, move to next word
+			isDeleting = false;
+			currentWordIndex = (currentWordIndex + 1) % exampleWords.length;
+			return pauseAfterDelete;
+		};
+
+		let timeoutId: NodeJS.Timeout;
+		const runAnimation = () => {
+			const delay = animate();
+			timeoutId = setTimeout(runAnimation, delay);
+		};
+
+		runAnimation();
+
+		return () => {
+			clearTimeout(timeoutId);
+		};
+	}, [variant, isFocused]);
 
 	const handleSelect = (word: WordSearchResult) => {
 		const encodedWord = encodeURIComponent(word.word);
@@ -34,6 +111,7 @@ export function SearchBox({ words }: SearchBoxProps) {
 		router.push(url);
 		setQuery("");
 		setIsOpen(false);
+		onClose?.();
 	};
 
 	const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -59,9 +137,15 @@ export function SearchBox({ words }: SearchBoxProps) {
 			case "Escape":
 				setIsOpen(false);
 				inputRef.current?.blur();
+				onClose?.();
 				break;
 		}
 	};
+
+	const inputClasses =
+		variant === "compact"
+			? "w-full px-4 py-2 text-base border border-[#8A0A24] rounded-md focus:outline-none focus:border-[#8A0A24] bg-[#A00A28] text-white placeholder-white/70"
+			: "w-full px-6 py-4 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#C60C30] bg-white";
 
 	return (
 		<div className="relative w-full">
@@ -74,14 +158,21 @@ export function SearchBox({ words }: SearchBoxProps) {
 					setSelectedIndex(0);
 					setIsOpen(true);
 				}}
-				onFocus={() => setIsOpen(true)}
+				onFocus={() => {
+					setIsOpen(true);
+					setIsFocused(true);
+					if (variant === "default") {
+						setPlaceholder("Søg efter ord...");
+					}
+				}}
 				onBlur={() => {
 					// Delay to allow click on suggestions
 					setTimeout(() => setIsOpen(false), 200);
+					setIsFocused(false);
 				}}
 				onKeyDown={handleKeyDown}
-				placeholder="Søg efter ord..."
-				className="w-full px-6 py-4 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:border-[#C60C30] bg-white"
+				placeholder={variant === "default" ? placeholder : "Søg efter ord..."}
+				className={inputClasses}
 			/>
 
 			{isOpen && suggestions.length > 0 && (
