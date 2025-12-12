@@ -5,6 +5,7 @@
 	},
 	"navigation": {
 		"home": "Home",
+		"odds": "Odds",
 		"search": "Search",
 		"menu": "Menu",
 		"close": "Close",
@@ -32,7 +33,21 @@
 		"backToSearch": "← Back to search",
 		"totalMentions": "Total mentions:",
 		"neverMentioned": "This word was never mentioned in any speech.",
+		"lastMentionedBy": "Last mentioned in <strong>{year}</strong> by {monarch}",
 		"badge": "ODDS"
+	},
+	"oddsList": {
+		"backToHome": "← Back to home",
+		"title": "Betting Odds",
+		"description": "Words commonly bet upon during the New Year's Eve speech, sorted by likelihood (lower odds = more likely).",
+		"tableWord": "Word",
+		"tableOdds": "Odds",
+		"lastMentioned": "Last Mentioned",
+		"lastMentionedBy": "Last mentioned in <strong>{year}</strong> by {monarch}",
+		"never": "Never",
+		"mentioned": "Mentioned",
+		"notMentioned": "Not mentioned",
+		"oddsExplanation": "Lower odds indicate higher likelihood. Checkmarks show whether the word was mentioned in that year's speech."
 	},
 	"common": {
 		"readInDanish": "Læs på dansk",

@@ -71,9 +71,27 @@ export default async function OddsPage({ params }: OddsPageProps) {
 
 	const yearlyData = getWordCountsByYear(word, "odds_count");
 
+	// Get the last year the word was mentioned
+	const db = getDatabase();
+	const lastMention = db
+		.prepare(
+			`SELECT oc.year, s.monarch
+			FROM odds_count oc
+			JOIN speech s ON oc.year = s.year
+			WHERE oc.word = ? AND oc.count > 0
+			ORDER BY oc.year DESC
+			LIMIT 1`,
+		)
+		.get(word) as { year: number; monarch: string } | undefined;
+	db.close();
+
+	const currentYear = new Date().getFullYear();
+	const yearsAgo = lastMention ? currentYear - lastMention.year : Infinity;
+	const showChart = yearsAgo <= 5;
+
 	return (
 		<main className="min-h-screen bg-[#FAF9F7] px-4 py-8">
-			<div className="mx-auto max-w-6xl">
+			<div className="mx-auto max-w-4xl">
 				<Link
 					href="/"
 					className="text-[#C60C30] hover:underline mb-4 inline-block"
@@ -92,7 +110,19 @@ export default async function OddsPage({ params }: OddsPageProps) {
 					<span className="font-semibold">{totalCount}</span>
 				</p>
 
-				<YearlyCountChart data={yearlyData} />
+				{showChart ? (
+					<YearlyCountChart data={yearlyData} />
+				) : (
+					lastMention && (
+						<p className="text-3xl text-gray-400 text-center py-16">
+							{t.rich("lastMentionedBy", {
+								monarch: lastMention.monarch,
+								year: lastMention.year,
+								strong: (chunks) => <strong>{chunks}</strong>,
+							})}
+						</p>
+					)
+				)}
 			</div>
 		</main>
 	);

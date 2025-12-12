@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "@/i18n/routing";
 import type { WordSearchResult } from "@/lib/database";
 

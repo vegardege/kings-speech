@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 import { Link } from "@/i18n/routing";
 import type { WordSearchResult } from "@/lib/database";
 import { LanguageToggle } from "./LanguageToggle";
@@ -27,6 +27,12 @@ export function TopMenuBar({ words }: TopMenuBarProps) {
 								className="text-white font-medium hover:opacity-80 transition-opacity"
 							>
 								{t("home")}
+							</Link>
+							<Link
+								href="/odds"
+								className="text-white font-medium hover:opacity-80 transition-opacity"
+							>
+								{t("odds")}
 							</Link>
 						</div>
 
@@ -162,6 +168,13 @@ export function TopMenuBar({ words }: TopMenuBarProps) {
 							onClick={() => setMobileMenuOpen(false)}
 						>
 							{t("home")}
+						</Link>
+						<Link
+							href="/odds"
+							className="block text-white font-medium hover:opacity-80 transition-opacity py-2"
+							onClick={() => setMobileMenuOpen(false)}
+						>
+							{t("odds")}
 						</Link>
 						<div className="pt-2 border-t border-red-800">
 							<LanguageToggle />

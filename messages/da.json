@@ -5,6 +5,7 @@
 	},
 	"navigation": {
 		"home": "Hjem",
+		"odds": "Odds",
 		"search": "Søg",
 		"menu": "Menu",
 		"close": "Luk",
@@ -32,7 +33,21 @@
 		"backToSearch": "← Tilbage til søgning",
 		"totalMentions": "Totale nævnelser:",
 		"neverMentioned": "Dette ord blev aldrig nævnt i nogen tale.",
+		"lastMentionedBy": "Sidst nævnt i <strong>{year}</strong> af {monarch}",
 		"badge": "ODDS"
+	},
+	"oddsList": {
+		"backToHome": "← Tilbage til forsiden",
+		"title": "Væddemål",
+		"description": "Ord der ofte satses på under nytårstalen, sorteret efter sandsynlighed (lavere odds = mere sandsynligt).",
+		"tableWord": "Ord",
+		"tableOdds": "Odds",
+		"lastMentioned": "Sidst nævnt",
+		"lastMentionedBy": "Sidst nævnt i <strong>{year}</strong> af {monarch}",
+		"never": "Aldrig",
+		"mentioned": "Nævnt",
+		"notMentioned": "Ikke nævnt",
+		"oddsExplanation": "Lavere odds indikerer højere sandsynlighed. Flueben viser om ordet blev nævnt i det års tale."
 	},
 	"common": {
 		"readInDanish": "Dansk",

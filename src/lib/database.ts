@@ -138,3 +138,62 @@ export function getWordTotalCount(
 	db.close();
 	return result.total ?? 0;
 }
+
+export interface OddsWord {
+	word: string;
+	odds: number;
+	lastMentioned: number | null;
+	lastMentionedMonarch: string | null;
+	lastFiveYears: { year: number; mentioned: boolean }[];
+}
+
+export function getAllOddsWords(): OddsWord[] {
+	const db = getDatabase();
+
+	// Get the last 5 years with speeches
+	const years = db
+		.prepare("SELECT DISTINCT year FROM speech ORDER BY year DESC LIMIT 5")
+		.all() as { year: number }[];
+
+	// Get all odds words
+	const oddsWords = db
+		.prepare("SELECT word, odds FROM odds ORDER BY odds ASC")
+		.all() as { word: string; odds: number }[];
+
+	// For each word, check if it was mentioned in each of the last 5 years
+	const results: OddsWord[] = oddsWords.map((oddsWord) => {
+		// Find the most recent year this word was mentioned
+		const lastMentionedResult = db
+			.prepare(
+				`SELECT oc.year, s.monarch
+				FROM odds_count oc
+				JOIN speech s ON oc.year = s.year
+				WHERE oc.word = ? AND oc.count > 0
+				ORDER BY oc.year DESC
+				LIMIT 1`,
+			)
+			.get(oddsWord.word) as { year: number; monarch: string } | undefined;
+
+		const lastFiveYears = years.map((y) => {
+			const count = db
+				.prepare("SELECT count FROM odds_count WHERE word = ? AND year = ?")
+				.get(oddsWord.word, y.year) as { count: number } | undefined;
+
+			return {
+				year: y.year,
+				mentioned: (count?.count ?? 0) > 0,
+			};
+		});
+
+		return {
+			word: oddsWord.word,
+			odds: oddsWord.odds,
+			lastMentioned: lastMentionedResult?.year ?? null,
+			lastMentionedMonarch: lastMentionedResult?.monarch ?? null,
+			lastFiveYears,
+		};
+	});
+
+	db.close();
+	return results;
+}

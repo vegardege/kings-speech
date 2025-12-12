@@ -68,7 +68,7 @@ export default async function WordPage({ params }: WordPageProps) {
 
 	return (
 		<main className="min-h-screen bg-[#FAF9F7] px-4 py-8">
-			<div className="mx-auto max-w-6xl">
+			<div className="mx-auto max-w-4xl">
 				<Link
 					href="/"
 					className="text-[#C60C30] hover:underline mb-4 inline-block"
