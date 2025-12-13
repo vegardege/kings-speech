@@ -20,18 +20,6 @@ jobs:
       - name: Run Biome
         run: biome ci .
 
-      - name: Log in to Docker Hub
-        if: github.ref == 'refs/heads/main'
-        uses: docker/login-action@v3
-        with:
-          username: ${{ vars.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Build and push Docker image
-        if: github.ref == 'refs/heads/main'
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: vegardege/kings-speech:latest
-          platforms: linux/amd64
+      # Note: Docker build disabled in CI for now
+      # Build and push manually from local machine using:
+      # docker buildx build --platform linux/amd64 -t vegardege/kings-speech:latest --push .

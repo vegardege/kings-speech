@@ -17,8 +17,13 @@ FROM base AS builder
 COPY --from=install /tmp/dev/node_modules ./node_modules
 COPY . .
 
+# Copy database into image (for build-time page generation)
+# This expects the database to be copied to ./data/royal-pipes/analytics.db before building
 ENV NODE_ENV=production
 ENV XDG_DATA_HOME=/app/data
+RUN mkdir -p /app/data/royal-pipes
+COPY data/royal-pipes/analytics.db /app/data/royal-pipes/analytics.db
+
 RUN npm run build
 
 # Production stage

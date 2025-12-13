@@ -15,13 +15,15 @@ This is a personal project created to explore linguistic patterns in the Danish 
 
 ### Run with Docker (pre-built image)
 
-If you have the royal-pipes database ready (see [Building the Database](#building-the-database)):
+The easiest way to run King's Speech:
 
 ```bash
-docker run -p 3000:3000 -v ~/.local/share/royal-pipes:/app/data/royal-pipes vegardege/kings-speech:latest
+docker run -p 3000:3000 vegardege/kings-speech:latest
 ```
 
 Then open [http://localhost:3000](http://localhost:3000)
+
+The database is included in the Docker image, so no additional setup is needed.
 
 ## Full Setup
 
@@ -77,15 +79,35 @@ npm run start
 
 ### Docker (build your own image)
 
+First, ensure the database is in the right location for the build:
+
 ```bash
-# Build the image
+# Copy database to project directory for Docker build
+mkdir -p data/royal-pipes
+cp ~/.local/share/royal-pipes/analytics.db data/royal-pipes/
+
+# Build the image (includes database in image)
 docker build -t kings-speech:latest .
 
-# Run with volume mount for database
+# Run the container
+docker run -p 3000:3000 kings-speech:latest
+
+# Optional: You can still mount a volume to override the built-in database
 docker run -p 3000:3000 -v ~/.local/share/royal-pipes:/app/data/royal-pipes kings-speech:latest
 ```
 
-The database file is mounted as a volume, which means you can update the data without rebuilding the Docker image.
+#### Building for multiple platforms (e.g., from Mac for Linux servers)
+
+```bash
+# Copy database first
+mkdir -p data/royal-pipes
+cp ~/.local/share/royal-pipes/analytics.db data/royal-pipes/
+
+# Build for linux/amd64 and push to Docker Hub
+docker buildx build --platform linux/amd64 -t vegardege/kings-speech:latest --push .
+```
+
+The database is included in the Docker image. This makes the image larger (~50-100MB extra) but simpler to deploy.
 
 ## Development
 

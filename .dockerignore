@@ -32,5 +32,7 @@ bun-debug.log*
 # Testing
 coverage
 
-# Data (will be mounted as volume)
-data
+# Data (exclude everything except the database needed for build)
+data/*
+!data/royal-pipes
+!data/royal-pipes/analytics.db
