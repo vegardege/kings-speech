@@ -1,0 +1,36 @@
+# Dependencies
+node_modules
+
+# Build output
+.next
+out
+
+# Local environment
+.env*.local
+
+# Development files
+.git
+.gitignore
+README.md
+LICENSE.md
+CLAUDE.md
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+bun-debug.log*
+
+# IDE
+.vscode
+.idea
+
+# OS
+.DS_Store
+*.pem
+
+# Testing
+coverage
+
+# Data (will be mounted as volume)
+data
