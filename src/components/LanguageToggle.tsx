@@ -8,8 +8,6 @@ export function LanguageToggle() {
 	const pathname = usePathname();
 	const params = useParams();
 	const currentLocale = params.locale as string;
-
-	// Get the other locale
 	const otherLocale = currentLocale === "en" ? "da" : "en";
 
 	// Build the URL for the other locale

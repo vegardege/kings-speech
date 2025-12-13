@@ -275,7 +275,6 @@ export function YearlyCountChart({ data }: YearlyCountChartProps) {
 			className="w-full bg-white rounded-lg border border-gray-200 p-4"
 		>
 			<div className="relative flex">
-				{/* Fixed Y-axis */}
 				<div className="shrink-0">
 					<svg
 						ref={yAxisRef}
@@ -283,8 +282,6 @@ export function YearlyCountChart({ data }: YearlyCountChartProps) {
 						height={dimensions.height || 400}
 					/>
 				</div>
-
-				{/* Scrollable chart content */}
 				<div
 					ref={scrollContainerRef}
 					className="flex-1 overflow-x-auto overflow-y-hidden"

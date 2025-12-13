@@ -40,18 +40,12 @@ export default async function LocaleLayout({
 }: LocaleLayoutProps) {
 	const { locale } = await params;
 
-	// Validate that the incoming locale is valid
 	if (!routing.locales.includes(locale as "en" | "da")) {
 		notFound();
 	}
-
-	// Enable static rendering
 	setRequestLocale(locale);
 
-	// Get messages for client components
 	const messages = await getMessages();
-
-	// Get words for search
 	const words = getAllWordsForSearch();
 
 	return (

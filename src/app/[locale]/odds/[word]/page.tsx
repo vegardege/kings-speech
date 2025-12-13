@@ -1,6 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { YearlyCountChart } from "@/components/YearlyCountChart";
-import { Link, routing } from "@/i18n/routing";
 import {
 	getDatabase,
 	getWordCountsByYear,
@@ -12,11 +11,6 @@ interface OddsPageProps {
 		locale: string;
 		word: string;
 	}>;
-}
-
-// Don't pre-generate any pages at build time - generate on-demand
-export async function generateStaticParams() {
-	return [];
 }
 
 // Revalidate every 24 hours (data rarely changes)
@@ -35,20 +29,12 @@ export default async function OddsPage({ params }: OddsPageProps) {
 		return (
 			<main className="min-h-screen bg-[#FAF9F7] px-4 py-8">
 				<div className="mx-auto max-w-4xl">
-					<Link
-						href="/"
-						className="text-[#C60C30] hover:underline mb-4 inline-block"
-					>
-						{t("backToSearch")}
-					</Link>
-
 					<h1 className="text-4xl font-bold text-gray-900 mb-4">
 						{word}
 						<span className="ml-3 px-3 py-1 bg-[#C60C30] text-white text-lg rounded">
 							{t("badge")}
 						</span>
 					</h1>
-
 					<p className="text-3xl text-gray-400 text-center py-16">
 						{t("neverMentioned")}
 					</p>
@@ -79,13 +65,6 @@ export default async function OddsPage({ params }: OddsPageProps) {
 	return (
 		<main className="min-h-screen bg-[#FAF9F7] px-4 py-8">
 			<div className="mx-auto max-w-4xl">
-				<Link
-					href="/"
-					className="text-[#C60C30] hover:underline mb-4 inline-block"
-				>
-					{t("backToSearch")}
-				</Link>
-
 				<h1 className="text-4xl font-bold text-gray-900 mb-2">
 					{word}
 					<span className="ml-3 px-3 py-1 bg-[#C60C30] text-white text-lg rounded">
@@ -96,7 +75,6 @@ export default async function OddsPage({ params }: OddsPageProps) {
 					{t("totalMentions")}{" "}
 					<span className="font-semibold">{totalCount}</span>
 				</p>
-
 				{showChart ? (
 					<YearlyCountChart data={yearlyData} />
 				) : (

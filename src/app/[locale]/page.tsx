@@ -19,7 +19,6 @@ export default async function HomePage({ params }: HomePageProps) {
 				<p className="text-gray-700 text-3xl mt-8 mb-2">{t("header")}</p>
 				<p className="text-gray-700 text-xl mt-8 mb-2">{t("subHeader")}</p>
 				<SearchBox words={words} />
-
 				<div className="mt-12 text-sm text-gray-600">
 					<p>{t("searchPrompt")}</p>
 				</div>

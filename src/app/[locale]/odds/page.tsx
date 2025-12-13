@@ -22,17 +22,9 @@ export default async function OddsListPage({ params }: OddsListPageProps) {
 	return (
 		<main className="min-h-screen bg-[#FAF9F7] px-4 py-8">
 			<div className="mx-auto max-w-4xl">
-				<Link
-					href="/"
-					className="text-[#C60C30] hover:underline mb-4 inline-block"
-				>
-					{t("backToHome")}
-				</Link>
-
 				<h1 className="text-4xl font-bold text-gray-900 mb-2">{t("title")}</h1>
 				<p className="text-gray-600 mb-8">{t("description")}</p>
 
-				{/* Desktop Table View */}
 				<div className="hidden md:block bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200">
 					<div className="overflow-x-auto">
 						<table className="w-full">
@@ -157,7 +149,6 @@ export default async function OddsListPage({ params }: OddsListPageProps) {
 					</div>
 				</div>
 
-				{/* Mobile Card View */}
 				<div className="md:hidden space-y-4">
 					{oddsWords.map((item) => {
 						const recentYears = item.lastFiveYears.map((y) => y.year);
