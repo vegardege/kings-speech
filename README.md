@@ -2,14 +2,11 @@
 
 [![Lint, Build, Deploy](https://github.com/vegardege/kings-speech/actions/workflows/lint-build-deploy.yml/badge.svg)](https://github.com/vegardege/kings-speech/actions/workflows/lint-build-deploy.yml)
 
-King's Speech is a web application providing statistics and analysis about the Danish Monarch's yearly New Year's Eve speeches. It serves as an interactive exploration tool for linguistic patterns and historical trends in Danish royal New Year's Eve speeches.
+Beheading royalty has fallen out of fashion. The Danes, however, have found different use for their monarchs: betting on which words will be used in the yearly Nytårstale (NYE speech).
 
-## Motivation
+[King's Speech](https://kingsspeech.pebblepatch.dev/) is a web application providing statistics and analysis about the Danish Monarch's yearly New Year's Eve speeches. It serves as an interactive exploration tool for linguistic patterns and historical trends in Danish royal New Year's Eve speeches.
 
-This is a personal project created to explore linguistic patterns in the Danish royal New Year's Eve speeches. The application provides an interactive interface for discovering word usage trends, comparing monarchs, and finding interesting trivia about these historic addresses.
-
-> [!NOTE]
-> This is a personal project shared in the spirit of open source. I haven't spent time making it production-ready for others. That said, the instructions below should help you reproduce it if you're interested.
+The page is under active development and will be updated before NYE 2025.
 
 ## Quick Start
 
@@ -23,7 +20,7 @@ docker run -p 3000:3000 vegardege/kings-speech:latest
 
 Then open [http://localhost:3000](http://localhost:3000)
 
-The database is included in the Docker image, so no additional setup is needed.
+The database is included in the Docker image, so no additional setup is needed. This will be changed as the project matures, however, so be prepared to change it if you want to run the project locally for more than a one time thing.
 
 ## Full Setup
 
@@ -135,17 +132,6 @@ npm run format:fix   # Auto-fix formatting (alias for check:fix)
 - **Code Quality**: Biome
 - **Database**: SQLite (read-only from royal-pipes)
 - **Runtime**: Node.js 20+
-
-### Architecture
-
-The application uses **Static Site Generation (SSG)** with full pre-rendering:
-
-- All pages (14,000+) are pre-generated at build time
-- Build takes ~4 minutes and outputs ~600MB
-- No server-side rendering at runtime
-- Database queries happen only during build
-
-This approach ensures excellent performance while the build remains acceptable for a personal project.
 
 ### Internationalization
 
