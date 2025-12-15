@@ -2,7 +2,7 @@
 FROM node:25-alpine AS base
 WORKDIR /app
 
-# Install dependencies into temp directories
+# Install dependencies
 FROM base AS install
 RUN mkdir -p /tmp/dev
 COPY package.json package-lock.json /tmp/dev/
@@ -17,16 +17,17 @@ FROM base AS builder
 COPY --from=install /tmp/dev/node_modules ./node_modules
 COPY . .
 
-# Copy database into image (for build-time page generation)
-# This expects the database to be copied to ./data/royal-pipes/analytics.db before building
+# Make DB available for static generation
 ENV NODE_ENV=production
 ENV XDG_DATA_HOME=/app/data
 RUN mkdir -p /app/data/royal-pipes
+
+# Copy database into builder stage for SSG
 COPY data/royal-pipes/analytics.db /app/data/royal-pipes/analytics.db
 
 RUN npm run build
 
-# Production stage
+# Production runtime
 FROM base AS runner
 
 ENV NODE_ENV=production
@@ -38,9 +39,12 @@ COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/messages ./messages
 
-# Create data directory for volume mount
-RUN mkdir -p /app/data
+# Ensure directory exists
+RUN mkdir -p /app/data/royal-pipes
+
+# Copy DB from builder → runner
+COPY --from=builder /app/data/royal-pipes/analytics.db \
+    /app/data/royal-pipes/analytics.db
 
 EXPOSE 3000
-
 CMD ["npm", "start"]
