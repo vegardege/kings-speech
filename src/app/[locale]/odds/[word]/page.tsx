@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { YearlyCountChart } from "@/components/YearlyCountChart";
+import { WordTimelineByDecade } from "@/components/WordTimelineByDecade";
+import { WordTimelineByMonarch } from "@/components/WordTimelineByMonarch";
 import {
 	getDatabase,
 	getWordCountsByYear,
@@ -75,8 +76,16 @@ export default async function OddsPage({ params }: OddsPageProps) {
 					{t("totalMentions")}{" "}
 					<span className="font-semibold">{totalCount}</span>
 				</p>
+
 				{showChart ? (
-					<YearlyCountChart data={yearlyData} />
+					<>
+						<div className="hidden md:block">
+							<WordTimelineByMonarch data={yearlyData} />
+						</div>
+						<div className="md:hidden">
+							<WordTimelineByDecade data={yearlyData} />
+						</div>
+					</>
 				) : (
 					lastMention && (
 						<p className="text-3xl text-gray-400 text-center py-16">

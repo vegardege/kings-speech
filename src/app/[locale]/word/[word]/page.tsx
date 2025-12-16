@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { YearlyCountChart } from "@/components/YearlyCountChart";
+import { WordTimelineByDecade } from "@/components/WordTimelineByDecade";
+import { WordTimelineByMonarch } from "@/components/WordTimelineByMonarch";
 import { getWordCountsByYear, getWordTotalCount } from "@/lib/database";
 
 interface WordPageProps {
@@ -44,7 +45,13 @@ export default async function WordPage({ params }: WordPageProps) {
 					{t("totalMentions")}{" "}
 					<span className="font-semibold">{totalCount}</span>
 				</p>
-				<YearlyCountChart data={yearlyData} />
+
+				<div className="hidden md:block">
+					<WordTimelineByMonarch data={yearlyData} />
+				</div>
+				<div className="md:hidden">
+					<WordTimelineByDecade data={yearlyData} />
+				</div>
 			</div>
 		</main>
 	);
