@@ -1,7 +1,12 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { WordStatistics } from "@/components/WordStatistics";
 import { WordTimelineByDecade } from "@/components/WordTimelineByDecade";
 import { WordTimelineByMonarch } from "@/components/WordTimelineByMonarch";
-import { getWordCountsByYear, getWordTotalCount } from "@/lib/database";
+import {
+	getTotalSpeeches,
+	getWordCountsByYear,
+	getWordTotalCount,
+} from "@/lib/database";
 
 interface WordPageProps {
 	params: Promise<{
@@ -21,6 +26,7 @@ export default async function WordPage({ params }: WordPageProps) {
 	const t = await getTranslations("word");
 	const word = decodeURIComponent(encodedWord);
 	const totalCount = getWordTotalCount(word, "word_count");
+	const totalSpeeches = getTotalSpeeches();
 
 	if (totalCount === 0) {
 		return (
@@ -40,11 +46,9 @@ export default async function WordPage({ params }: WordPageProps) {
 	return (
 		<main className="min-h-screen bg-[#FAF9F7] px-4 py-8">
 			<div className="mx-auto max-w-4xl">
-				<h1 className="text-4xl font-bold text-gray-900 mb-2">{word}</h1>
-				<p className="text-gray-600 mb-8">
-					{t("totalMentions")}{" "}
-					<span className="font-semibold">{totalCount}</span>
-				</p>
+				<h1 className="text-4xl font-bold text-gray-900 mb-8 capitalize">
+					{word}
+				</h1>
 
 				<div className="hidden md:block">
 					<WordTimelineByMonarch data={yearlyData} />
@@ -52,6 +56,12 @@ export default async function WordPage({ params }: WordPageProps) {
 				<div className="md:hidden">
 					<WordTimelineByDecade data={yearlyData} />
 				</div>
+
+				<WordStatistics
+					data={yearlyData}
+					totalCount={totalCount}
+					totalSpeeches={totalSpeeches}
+				/>
 			</div>
 		</main>
 	);

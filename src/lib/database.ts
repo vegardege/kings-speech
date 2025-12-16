@@ -134,6 +134,14 @@ export interface OddsWord {
 	lastFiveYears: { year: number; mentioned: boolean }[];
 }
 
+export const getTotalSpeeches = cache((): number => {
+	const db = getDatabase();
+	const result = db.prepare("SELECT COUNT(*) as count FROM speech").get() as {
+		count: number;
+	};
+	return result.count;
+});
+
 export const getAllOddsWords = cache((): OddsWord[] => {
 	const db = getDatabase();
 

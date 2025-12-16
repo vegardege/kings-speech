@@ -1,8 +1,10 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { WordStatistics } from "@/components/WordStatistics";
 import { WordTimelineByDecade } from "@/components/WordTimelineByDecade";
 import { WordTimelineByMonarch } from "@/components/WordTimelineByMonarch";
 import {
 	getDatabase,
+	getTotalSpeeches,
 	getWordCountsByYear,
 	getWordTotalCount,
 } from "@/lib/database";
@@ -25,14 +27,15 @@ export default async function OddsPage({ params }: OddsPageProps) {
 	const t = await getTranslations("odds");
 	const word = decodeURIComponent(encodedWord);
 	const totalCount = getWordTotalCount(word, "odds_count");
+	const totalSpeeches = getTotalSpeeches();
 
 	if (totalCount === 0) {
 		return (
 			<main className="min-h-screen bg-[#FAF9F7] px-4 py-8">
 				<div className="mx-auto max-w-4xl">
-					<h1 className="text-4xl font-bold text-gray-900 mb-4">
+					<h1 className="text-4xl font-bold text-gray-900 mb-4 flex items-center gap-3">
 						{word}
-						<span className="ml-3 px-3 py-1 bg-[#C60C30] text-white text-lg rounded">
+						<span className="px-3 py-1 bg-[#C60C30] text-white text-lg rounded">
 							{t("badge")}
 						</span>
 					</h1>
@@ -66,16 +69,12 @@ export default async function OddsPage({ params }: OddsPageProps) {
 	return (
 		<main className="min-h-screen bg-[#FAF9F7] px-4 py-8">
 			<div className="mx-auto max-w-4xl">
-				<h1 className="text-4xl font-bold text-gray-900 mb-2">
+				<h1 className="text-4xl font-bold text-gray-900 mb-8 flex items-center gap-3">
 					{word}
-					<span className="ml-3 px-3 py-1 bg-[#C60C30] text-white text-lg rounded">
+					<span className="px-3 py-1 bg-[#C60C30] text-white text-lg rounded">
 						{t("badge")}
 					</span>
 				</h1>
-				<p className="text-gray-600 mb-8">
-					{t("totalMentions")}{" "}
-					<span className="font-semibold">{totalCount}</span>
-				</p>
 
 				{showChart ? (
 					<>
@@ -85,6 +84,12 @@ export default async function OddsPage({ params }: OddsPageProps) {
 						<div className="md:hidden">
 							<WordTimelineByDecade data={yearlyData} />
 						</div>
+
+						<WordStatistics
+							data={yearlyData}
+							totalCount={totalCount}
+							totalSpeeches={totalSpeeches}
+						/>
 					</>
 				) : (
 					lastMention && (
