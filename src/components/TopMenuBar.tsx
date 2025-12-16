@@ -130,6 +130,7 @@ export function TopMenuBar({ words }: TopMenuBarProps) {
 										words={words}
 										onClose={() => setSearchExpanded(false)}
 										variant="compact"
+										autoFocus
 									/>
 								</div>
 								<button

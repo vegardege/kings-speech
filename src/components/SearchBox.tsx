@@ -15,6 +15,7 @@ interface SearchBoxProps {
 export function SearchBox({
 	words,
 	onClose,
+	autoFocus = false,
 	variant = "default",
 }: SearchBoxProps) {
 	const t = useTranslations("search");
@@ -25,6 +26,13 @@ export function SearchBox({
 	const [isFocused, setIsFocused] = useState(false);
 	const router = useRouter();
 	const inputRef = useRef<HTMLInputElement>(null);
+
+	// Auto-focus input when component mounts if autoFocus is true
+	useEffect(() => {
+		if (autoFocus && inputRef.current) {
+			inputRef.current.focus();
+		}
+	}, [autoFocus]);
 
 	const suggestions = useMemo(() => {
 		if (!query.trim()) {
