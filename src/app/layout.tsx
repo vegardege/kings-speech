@@ -1,8 +1,12 @@
-// Root layout - just a placeholder since all pages are under [locale]
+// Root layout - provides HTML structure for the root redirect page
 export default function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	return children;
+	return (
+		<html lang="en">
+			<body>{children}</body>
+		</html>
+	);
 }

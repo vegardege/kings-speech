@@ -1,22 +1,19 @@
-"use client";
+import { headers } from "next/headers";
+import { redirect, routing } from "@/i18n/routing";
 
-import { useEffect } from "react";
-import { routing } from "@/i18n/routing";
+export default async function RootPage() {
+	// Get the Accept-Language header to detect browser language
+	const headersList = await headers();
+	const acceptLanguage = headersList.get("accept-language") || "";
 
-export default function RootPage() {
-	useEffect(() => {
-		// Detect browser language
-		const browserLang = navigator.language.split("-")[0];
+	// Parse the first language from Accept-Language header
+	const browserLang = acceptLanguage.split(",")[0]?.split("-")[0] || "";
 
-		// Check if browser language is supported, fallback to default
-		const locale = routing.locales.includes(browserLang as "en" | "da")
-			? browserLang
-			: routing.defaultLocale;
+	// Check if browser language is supported, fallback to default
+	const locale = routing.locales.includes(browserLang as "en" | "da")
+		? browserLang
+		: routing.defaultLocale;
 
-		// Redirect to the appropriate locale
-		window.location.href = `/${locale}`;
-	}, []);
-
-	// Show nothing while redirecting
-	return null;
+	// Server-side redirect to the appropriate locale
+	redirect({ href: "/", locale: locale as "en" | "da" });
 }
