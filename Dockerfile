@@ -17,13 +17,7 @@ FROM base AS builder
 COPY --from=install /tmp/dev/node_modules ./node_modules
 COPY . .
 
-# Make DB available for static generation
 ENV NODE_ENV=production
-ENV XDG_DATA_HOME=/app/data
-RUN mkdir -p /app/data/royal-pipes
-
-# Copy database into builder stage for SSG
-COPY data/royal-pipes/analytics.db /app/data/royal-pipes/analytics.db
 
 RUN npm run build
 
@@ -39,12 +33,9 @@ COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/messages ./messages
 
-# Ensure directory exists
+# Ensure directory exists and copy database for runtime access
 RUN mkdir -p /app/data/royal-pipes
-
-# Copy DB from builder → runner
-COPY --from=builder /app/data/royal-pipes/analytics.db \
-    /app/data/royal-pipes/analytics.db
+COPY data/royal-pipes/analytics.db /app/data/royal-pipes/analytics.db
 
 EXPOSE 3000
 CMD ["npm", "start"]

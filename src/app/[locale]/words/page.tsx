@@ -1,6 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { WordsPageClient } from "@/components/WordsPageClient";
-import { routing } from "@/i18n/routing";
 import {
 	getMostUsedWords,
 	getTotalSpeeches,
@@ -13,9 +12,8 @@ interface WordsListPageProps {
 	}>;
 }
 
-export async function generateStaticParams() {
-	return routing.locales.map((locale) => ({ locale }));
-}
+// Cache this page for 24 hours
+export const revalidate = 86400;
 
 export default async function WordsListPage({ params }: WordsListPageProps) {
 	const { locale } = await params;

@@ -1,5 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Link, routing } from "@/i18n/routing";
+import { Link } from "@/i18n/routing";
 import { getAllOddsWords } from "@/lib/database";
 
 interface OddsListPageProps {
@@ -8,9 +8,8 @@ interface OddsListPageProps {
 	}>;
 }
 
-export async function generateStaticParams() {
-	return routing.locales.map((locale) => ({ locale }));
-}
+// Cache this page for 24 hours
+export const revalidate = 86400;
 
 export default async function OddsListPage({ params }: OddsListPageProps) {
 	const { locale } = await params;
