@@ -34,11 +34,13 @@ export function WordTimelineByMonarch({ data }: WordTimelineByMonarchProps) {
 		}),
 	);
 
+	// Calculate global max count across ALL monarchs for consistent color scaling
+	const globalMaxCount = Math.max(...data.map((d) => d.count));
+
 	return (
 		<div className="w-full bg-white rounded-lg border border-gray-200 p-3 md:p-4">
 			<div className="flex flex-col gap-3 md:gap-4">
 				{monarchs.map((monarchData) => {
-					const maxCount = Math.max(...monarchData.years.map((d) => d.count));
 
 					return (
 						<div key={monarchData.monarch} className="flex flex-col gap-1">
@@ -57,8 +59,8 @@ export function WordTimelineByMonarch({ data }: WordTimelineByMonarchProps) {
 									{monarchData.years.map((yearData) => {
 										const hasMention = yearData.count > 0;
 										const opacity = hasMention
-											? maxCount > 0
-												? 0.4 + (yearData.count / maxCount) * 0.6
+											? globalMaxCount > 0
+												? 0.4 + (yearData.count / globalMaxCount) * 0.6
 												: 1
 											: 1;
 
