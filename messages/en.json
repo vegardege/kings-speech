@@ -52,5 +52,44 @@
 	"common": {
 		"readInDanish": "Læs på dansk",
 		"readInEnglish": "Read in English"
+	},
+	"statistics": {
+		"totalMentions": {
+			"title": "Total Mentions",
+			"text": "{count} times across all speeches"
+		},
+		"onlyMention": {
+			"title": "Only Mention",
+			"text": "In <strong>{year}</strong> by {monarch}"
+		},
+		"firstAndLast": {
+			"title": "First & Last",
+			"yearRange": "<strong>{firstYear}</strong> – <strong>{lastYear}</strong>"
+		},
+		"frequency": {
+			"title": "Frequency",
+			"percentage": "<strong>{percentage}%</strong> of all speeches",
+			"speechesCount": "{count} of {total} speeches"
+		},
+		"mostActiveYear": {
+			"title": "Most Active Year",
+			"withMentions": "<strong>{year}</strong> with {count} {count, plural, one {mention} other {mentions}}",
+			"byMonarch": "by {monarch}"
+		},
+		"favoriteMonarch": {
+			"title": "Favorite Monarch",
+			"totalMentions": "{count} total {count, plural, one {mention} other {mentions}}"
+		},
+		"longestStreak": {
+			"title": "Longest Streak",
+			"consecutiveYears": "<strong>{count} consecutive years</strong>",
+			"endingIn": "ending in {year}"
+		}
+	},
+	"timeline": {
+		"hoverPrompt": "Tap/hover over a year to see details",
+		"hoverPromptDesktop": "Hover/tap a year to see details",
+		"notMentioned": "Not mentioned",
+		"mentionCount": "{count} {count, plural, one {mention} other {mentions}}"
 	}
 }

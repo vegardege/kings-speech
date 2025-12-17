@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import type { YearData } from "@/lib/database";
 
@@ -14,6 +15,7 @@ interface MonarchData {
 }
 
 export function WordTimelineByMonarch({ data }: WordTimelineByMonarchProps) {
+	const t = useTranslations("timeline");
 	const [hoveredCell, setHoveredCell] = useState<YearData | null>(null);
 
 	// Group data by monarch
@@ -41,7 +43,6 @@ export function WordTimelineByMonarch({ data }: WordTimelineByMonarchProps) {
 		<div className="w-full bg-white rounded-lg border border-gray-200 p-3 md:p-4">
 			<div className="flex flex-col gap-3 md:gap-4">
 				{monarchs.map((monarchData) => {
-
 					return (
 						<div key={monarchData.monarch} className="flex flex-col gap-1">
 							<div className="flex items-center gap-2 mb-1">
@@ -84,11 +85,12 @@ export function WordTimelineByMonarch({ data }: WordTimelineByMonarchProps) {
 													<div className="font-semibold">{yearData.year}</div>
 													{hasMention ? (
 														<div>
-															{yearData.count} mention
-															{yearData.count !== 1 ? "s" : ""}
+															{t("mentionCount", { count: yearData.count })}
 														</div>
 													) : (
-														<div className="text-gray-300">Not mentioned</div>
+														<div className="text-gray-300">
+															{t("notMentioned")}
+														</div>
 													)}
 												</div>
 											</button>
@@ -106,17 +108,14 @@ export function WordTimelineByMonarch({ data }: WordTimelineByMonarchProps) {
 					<div className="text-xs md:text-sm text-gray-700">
 						<strong>{hoveredCell.year}</strong> ({hoveredCell.monarch}):{" "}
 						{hoveredCell.count > 0 ? (
-							<>
-								{hoveredCell.count} mention
-								{hoveredCell.count !== 1 ? "s" : ""}
-							</>
+							t("mentionCount", { count: hoveredCell.count })
 						) : (
-							<span className="text-gray-500">Not mentioned</span>
+							<span className="text-gray-500">{t("notMentioned")}</span>
 						)}
 					</div>
 				) : (
 					<div className="text-xs md:text-sm text-gray-500 italic">
-						Tap/hover over a year to see details
+						{t("hoverPrompt")}
 					</div>
 				)}
 			</div>

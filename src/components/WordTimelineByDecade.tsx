@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import type { YearData } from "@/lib/database";
 
@@ -13,6 +14,7 @@ interface DecadeData {
 }
 
 export function WordTimelineByDecade({ data }: WordTimelineByDecadeProps) {
+	const t = useTranslations("timeline");
 	const [hoveredCell, setHoveredCell] = useState<YearData | null>(null);
 
 	// Organize all data into decades
@@ -87,11 +89,12 @@ export function WordTimelineByDecade({ data }: WordTimelineByDecadeProps) {
 													</div>
 													{hasMention ? (
 														<div>
-															{yearData.count} mention
-															{yearData.count !== 1 ? "s" : ""}
+															{t("mentionCount", { count: yearData.count })}
 														</div>
 													) : (
-														<div className="text-gray-400">Not mentioned</div>
+														<div className="text-gray-400">
+															{t("notMentioned")}
+														</div>
 													)}
 												</div>
 											)}
@@ -108,16 +111,14 @@ export function WordTimelineByDecade({ data }: WordTimelineByDecadeProps) {
 				<div className="mt-2 text-xs text-gray-700">
 					<strong>{hoveredCell.year}</strong> ({hoveredCell.monarch}):{" "}
 					{hoveredCell.count > 0 ? (
-						<>
-							{hoveredCell.count} mention{hoveredCell.count !== 1 ? "s" : ""}
-						</>
+						t("mentionCount", { count: hoveredCell.count })
 					) : (
-						<span className="text-gray-500">Not mentioned</span>
+						<span className="text-gray-500">{t("notMentioned")}</span>
 					)}
 				</div>
 			) : (
 				<div className="mt-2 text-xs text-gray-500 italic">
-					Hover/tap a year to see details
+					{t("hoverPromptDesktop")}
 				</div>
 			)}
 		</div>

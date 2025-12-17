@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import type { YearData } from "@/lib/database";
 
 interface WordStatisticsProps {
@@ -13,6 +14,8 @@ export function WordStatistics({
 	totalCount,
 	totalSpeeches,
 }: WordStatisticsProps) {
+	const t = useTranslations("statistics");
+
 	// Find first and last mentions
 	const sortedByYear = [...data].sort((a, b) => a.year - b.year);
 	const mentionedYears = sortedByYear.filter((d) => d.count > 0);
@@ -65,27 +68,37 @@ export function WordStatistics({
 			{/* Total Mentions */}
 			<div className="bg-white rounded-lg border border-gray-200 p-4">
 				<div className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
-					Total Mentions
+					{t("totalMentions.title")}
 				</div>
 				<div className="text-sm text-gray-900">
-					<strong>{totalCount}</strong> times across all speeches
+					{t.rich("totalMentions.text", {
+						count: totalCount,
+						strong: (chunks) => <strong>{chunks}</strong>,
+					})}
 				</div>
 			</div>
 
 			{/* First & Last Mention (merged) */}
 			<div className="bg-white rounded-lg border border-gray-200 p-4">
 				<div className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
-					{isOnlyOneMention ? "Only Mention" : "First & Last"}
+					{isOnlyOneMention ? t("onlyMention.title") : t("firstAndLast.title")}
 				</div>
 				{isOnlyOneMention ? (
 					<div className="text-sm text-gray-900">
-						In <strong>{firstMention.year}</strong> by {firstMention.monarch}
+						{t.rich("onlyMention.text", {
+							year: firstMention.year,
+							monarch: firstMention.monarch,
+							strong: (chunks) => <strong>{chunks}</strong>,
+						})}
 					</div>
 				) : (
 					<>
 						<div className="text-sm text-gray-900">
-							<strong>{firstMention.year}</strong> –{" "}
-							<strong>{lastMention.year}</strong>
+							{t.rich("firstAndLast.yearRange", {
+								firstYear: firstMention.year,
+								lastYear: lastMention.year,
+								strong: (chunks) => <strong>{chunks}</strong>,
+							})}
 						</div>
 						<div className="text-xs text-gray-500 mt-1">
 							{firstMention.monarch}
@@ -99,13 +112,19 @@ export function WordStatistics({
 			{/* Speech Percentage */}
 			<div className="bg-white rounded-lg border border-gray-200 p-4">
 				<div className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
-					Frequency
+					{t("frequency.title")}
 				</div>
 				<div className="text-sm text-gray-900">
-					<strong>{speechPercentage}%</strong> of all speeches
+					{t.rich("frequency.percentage", {
+						percentage: speechPercentage,
+						strong: (chunks) => <strong>{chunks}</strong>,
+					})}
 				</div>
 				<div className="text-xs text-gray-500 mt-1">
-					{mentionedYears.length} of {totalSpeeches} speeches
+					{t("frequency.speechesCount", {
+						count: mentionedYears.length,
+						total: totalSpeeches,
+					})}
 				</div>
 			</div>
 
@@ -113,14 +132,19 @@ export function WordStatistics({
 			{yearWithMostMentions.count > 1 && (
 				<div className="bg-white rounded-lg border border-gray-200 p-4">
 					<div className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
-						Most Active Year
+						{t("mostActiveYear.title")}
 					</div>
 					<div className="text-sm text-gray-900">
-						<strong>{yearWithMostMentions.year}</strong> with{" "}
-						{yearWithMostMentions.count} mentions
+						{t.rich("mostActiveYear.withMentions", {
+							year: yearWithMostMentions.year,
+							count: yearWithMostMentions.count,
+							strong: (chunks) => <strong>{chunks}</strong>,
+						})}
 					</div>
 					<div className="text-xs text-gray-500 mt-1">
-						by {yearWithMostMentions.monarch}
+						{t("mostActiveYear.byMonarch", {
+							monarch: yearWithMostMentions.monarch,
+						})}
 					</div>
 				</div>
 			)}
@@ -129,13 +153,15 @@ export function WordStatistics({
 			{monarchWithMost && monarchWithMost[1] > 0 && (
 				<div className="bg-white rounded-lg border border-gray-200 p-4">
 					<div className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
-						Favorite Monarch
+						{t("favoriteMonarch.title")}
 					</div>
 					<div className="text-sm text-gray-900">
 						<strong>{monarchWithMost[0]}</strong>
 					</div>
 					<div className="text-xs text-gray-500 mt-1">
-						{monarchWithMost[1]} total mentions
+						{t("favoriteMonarch.totalMentions", {
+							count: monarchWithMost[1],
+						})}
 					</div>
 				</div>
 			)}
@@ -144,13 +170,16 @@ export function WordStatistics({
 			{longestStreak > 2 && (
 				<div className="bg-white rounded-lg border border-gray-200 p-4">
 					<div className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
-						Longest Streak
+						{t("longestStreak.title")}
 					</div>
 					<div className="text-sm text-gray-900">
-						<strong>{longestStreak} consecutive years</strong>
+						{t.rich("longestStreak.consecutiveYears", {
+							count: longestStreak,
+							strong: (chunks) => <strong>{chunks}</strong>,
+						})}
 					</div>
 					<div className="text-xs text-gray-500 mt-1">
-						ending in {longestStreakEnd}
+						{t("longestStreak.endingIn", { year: longestStreakEnd })}
 					</div>
 				</div>
 			)}

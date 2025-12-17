@@ -52,5 +52,44 @@
 	"common": {
 		"readInDanish": "Dansk",
 		"readInEnglish": "English"
+	},
+	"statistics": {
+		"totalMentions": {
+			"title": "Totale nævnelser",
+			"text": "{count} gange i alle taler"
+		},
+		"onlyMention": {
+			"title": "Eneste nævnelse",
+			"text": "I <strong>{year}</strong> af {monarch}"
+		},
+		"firstAndLast": {
+			"title": "Første & sidste",
+			"yearRange": "<strong>{firstYear}</strong> – <strong>{lastYear}</strong>"
+		},
+		"frequency": {
+			"title": "Frekvens",
+			"percentage": "<strong>{percentage}%</strong> af alle taler",
+			"speechesCount": "{count} af {total} taler"
+		},
+		"mostActiveYear": {
+			"title": "Mest aktive år",
+			"withMentions": "<strong>{year}</strong> med {count} {count, plural, one {nævnelse} other {nævnelser}}",
+			"byMonarch": "af {monarch}"
+		},
+		"favoriteMonarch": {
+			"title": "Favoritmonark",
+			"totalMentions": "{count} {count, plural, one {nævnelse} other {nævnelser}} i alt"
+		},
+		"longestStreak": {
+			"title": "Længste stribe",
+			"consecutiveYears": "<strong>{count} år i træk</strong>",
+			"endingIn": "sluttede i {year}"
+		}
+	},
+	"timeline": {
+		"hoverPrompt": "Tryk/hold musen over et år for detaljer",
+		"hoverPromptDesktop": "Hold musen over/tryk på et år for detaljer",
+		"notMentioned": "Ikke nævnt",
+		"mentionCount": "{count} {count, plural, one {nævnelse} other {nævnelser}}"
 	}
 }
