@@ -5,6 +5,7 @@
 	},
 	"navigation": {
 		"home": "Home",
+		"words": "Words",
 		"odds": "Odds",
 		"search": "Search",
 		"menu": "Menu",
@@ -48,6 +49,21 @@
 		"mentioned": "Mentioned",
 		"notMentioned": "Not mentioned",
 		"oddsExplanation": "Lower odds indicate higher likelihood. Checkmarks show whether the word was mentioned in that year's speech."
+	},
+	"wordsList": {
+		"title": "Words",
+		"description": "Explore the most frequently used words in the Danish Monarch's New Year's Eve speeches.",
+		"includeStopwords": "Stopwords",
+		"stopwordsTooltip": "Stopwords are common words like 'the', 'and', 'of' that appear frequently in all texts",
+		"mostUsedTitle": "Most Said",
+		"mostUsedDescription": "Words with the highest total mention count across all speeches.",
+		"mostSpeechesTitle": "Most Speeches",
+		"mostSpeechesDescription": "Words that appear in the largest number of different speeches.",
+		"tableWord": "Word",
+		"tableTotalCount": "Total Count",
+		"tableSpeechCount": "Speeches",
+		"showMore": "Show more",
+		"showLess": "Show less"
 	},
 	"common": {
 		"readInDanish": "Læs på dansk",

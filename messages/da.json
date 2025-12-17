@@ -5,6 +5,7 @@
 	},
 	"navigation": {
 		"home": "Hjem",
+		"words": "Ord",
 		"odds": "Odds",
 		"search": "Søg",
 		"menu": "Menu",
@@ -48,6 +49,21 @@
 		"mentioned": "Nævnt",
 		"notMentioned": "Ikke nævnt",
 		"oddsExplanation": "Lavere odds indikerer højere sandsynlighed. Flueben viser om ordet blev nævnt i det års tale."
+	},
+	"wordsList": {
+		"title": "Ord",
+		"description": "Udforsk de mest brugte ord i den danske monarks nytårstaler.",
+		"includeStopwords": "Stopord",
+		"stopwordsTooltip": "Stopord er almindelige ord som 'og', 'i', 'det' der forekommer hyppigt i alle tekster",
+		"mostUsedTitle": "Mest sagt",
+		"mostUsedDescription": "Ord med det højeste antal nævnelser på tværs af alle taler.",
+		"mostSpeechesTitle": "Flest taler",
+		"mostSpeechesDescription": "Ord der forekommer i det højeste antal forskellige taler.",
+		"tableWord": "Ord",
+		"tableTotalCount": "Totalt antal",
+		"tableSpeechCount": "Taler",
+		"showMore": "Vis flere",
+		"showLess": "Vis færre"
 	},
 	"common": {
 		"readInDanish": "Dansk",

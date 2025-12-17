@@ -189,3 +189,80 @@ export const getAllOddsWords = cache((): OddsWord[] => {
 
 	return results;
 });
+
+export interface WordStats {
+	word: string;
+	totalCount: number;
+	speechCount: number;
+	isStopword: boolean;
+}
+
+export const getMostUsedWords = cache(
+	(limit: number, includeStopwords: boolean): WordStats[] => {
+		const db = getDatabase();
+
+		const stopwordFilter = includeStopwords ? "" : "WHERE is_stopword = 0";
+
+		const results = db
+			.prepare(
+				`
+			SELECT
+				word,
+				SUM(count) as totalCount,
+				COUNT(DISTINCT year) as speechCount,
+				is_stopword as isStopword
+			FROM word_count
+			${stopwordFilter}
+			GROUP BY word, is_stopword
+			ORDER BY totalCount DESC, speechCount DESC, word ASC
+			LIMIT ?
+		`,
+			)
+			.all(limit) as {
+			word: string;
+			totalCount: number;
+			speechCount: number;
+			isStopword: number;
+		}[];
+
+		return results.map((r) => ({
+			...r,
+			isStopword: r.isStopword === 1,
+		}));
+	},
+);
+
+export const getWordsInMostSpeeches = cache(
+	(limit: number, includeStopwords: boolean): WordStats[] => {
+		const db = getDatabase();
+
+		const stopwordFilter = includeStopwords ? "" : "WHERE is_stopword = 0";
+
+		const results = db
+			.prepare(
+				`
+			SELECT
+				word,
+				SUM(count) as totalCount,
+				COUNT(DISTINCT year) as speechCount,
+				is_stopword as isStopword
+			FROM word_count
+			${stopwordFilter}
+			GROUP BY word, is_stopword
+			ORDER BY speechCount DESC, totalCount DESC, word ASC
+			LIMIT ?
+		`,
+			)
+			.all(limit) as {
+			word: string;
+			totalCount: number;
+			speechCount: number;
+			isStopword: number;
+		}[];
+
+		return results.map((r) => ({
+			...r,
+			isStopword: r.isStopword === 1,
+		}));
+	},
+);

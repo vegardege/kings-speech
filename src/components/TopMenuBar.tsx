@@ -29,6 +29,12 @@ export function TopMenuBar({ words }: TopMenuBarProps) {
 								{t("home")}
 							</Link>
 							<Link
+								href="/words"
+								className="text-white font-medium hover:opacity-80 transition-opacity"
+							>
+								{t("words")}
+							</Link>
+							<Link
 								href="/odds"
 								className="text-white font-medium hover:opacity-80 transition-opacity"
 							>
@@ -169,6 +175,13 @@ export function TopMenuBar({ words }: TopMenuBarProps) {
 							onClick={() => setMobileMenuOpen(false)}
 						>
 							{t("home")}
+						</Link>
+						<Link
+							href="/words"
+							className="block text-white font-medium hover:opacity-80 transition-opacity py-2"
+							onClick={() => setMobileMenuOpen(false)}
+						>
+							{t("words")}
 						</Link>
 						<Link
 							href="/odds"
