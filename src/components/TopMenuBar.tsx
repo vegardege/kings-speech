@@ -40,6 +40,18 @@ export function TopMenuBar({ words }: TopMenuBarProps) {
 							>
 								{t("odds")}
 							</Link>
+							<Link
+								href="/decades"
+								className="text-white font-medium hover:opacity-80 transition-opacity"
+							>
+								{t("decades")}
+							</Link>
+							<Link
+								href="/monarchs"
+								className="text-white font-medium hover:opacity-80 transition-opacity"
+							>
+								{t("monarchs")}
+							</Link>
 						</div>
 
 						<div className="hidden md:flex items-center gap-4">
@@ -189,6 +201,20 @@ export function TopMenuBar({ words }: TopMenuBarProps) {
 							onClick={() => setMobileMenuOpen(false)}
 						>
 							{t("odds")}
+						</Link>
+						<Link
+							href="/decades"
+							className="block text-white font-medium hover:opacity-80 transition-opacity py-2"
+							onClick={() => setMobileMenuOpen(false)}
+						>
+							{t("decades")}
+						</Link>
+						<Link
+							href="/monarchs"
+							className="block text-white font-medium hover:opacity-80 transition-opacity py-2"
+							onClick={() => setMobileMenuOpen(false)}
+						>
+							{t("monarchs")}
 						</Link>
 						<div className="pt-2 border-t border-red-800">
 							<LanguageToggle />

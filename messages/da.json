@@ -7,6 +7,8 @@
 		"home": "Hjem",
 		"words": "Ord",
 		"odds": "Odds",
+		"decades": "Årtier",
+		"monarchs": "Monarker",
 		"search": "Søg",
 		"menu": "Menu",
 		"close": "Luk",
@@ -107,5 +109,25 @@
 		"hoverPromptDesktop": "Hold musen over/tryk på et år for detaljer",
 		"notMentioned": "Ikke nævnt",
 		"mentionCount": "{count} {count, plural, one {nævnelse} other {nævnelser}}"
+	},
+	"decades": {
+		"title": "Årtier",
+		"description": "Udforsk de mest karakteristiske ord fra hvert årti af kongelige nytårstaler.",
+		"corpusSize": "{size} ord sagt",
+		"signatureWords": "Signaturord",
+		"moreWords": "+{count} flere",
+		"aboutTitle": "Om denne analyse",
+		"aboutDescription": "Disse signaturord er de mest karakteristiske for hvert årti sammenlignet med alle andre årtier. De afslører de unikke temaer, bekymringer og ordforråd fra hver æra.",
+		"aboutMethod": "Rangeringer er baseret på Weighted Log-Odds with Informative Dirichlet Prior, en statistisk metode der identificerer ord som er markant mere almindelige i én tidsperiode sammenlignet med andre."
+	},
+	"monarchs": {
+		"title": "Monarker",
+		"description": "Sammenlign de forskellige danske monarkers sproglige stil gennem deres signaturord.",
+		"corpusSize": "{size} ord sagt",
+		"signatureWords": "Signaturord",
+		"moreWords": "+{count} flere",
+		"aboutTitle": "Om denne analyse",
+		"aboutDescription": "Disse signaturord er de mest karakteristiske for hver monark sammenlignet med alle andre monarker. De afspejler hver monarks unikke stemme, prioriteter og æra.",
+		"aboutMethod": "Rangeringer er baseret på Weighted Log-Odds with Informative Dirichlet Prior, en statistisk metode der identificerer ord som er markant mere almindelige i én monarks taler sammenlignet med andre."
 	}
 }

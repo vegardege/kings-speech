@@ -7,6 +7,8 @@
 		"home": "Home",
 		"words": "Words",
 		"odds": "Odds",
+		"decades": "Decades",
+		"monarchs": "Monarchs",
 		"search": "Search",
 		"menu": "Menu",
 		"close": "Close",
@@ -107,5 +109,25 @@
 		"hoverPromptDesktop": "Hover/tap a year to see details",
 		"notMentioned": "Not mentioned",
 		"mentionCount": "{count} {count, plural, one {mention} other {mentions}}"
+	},
+	"decades": {
+		"title": "Decades",
+		"description": "Explore the most distinctive words from each decade of royal New Year's Eve speeches.",
+		"corpusSize": "{size} words spoken",
+		"signatureWords": "Signature Words",
+		"moreWords": "+{count} more",
+		"aboutTitle": "About This Analysis",
+		"aboutDescription": "These signature words are the most distinctive for each decade compared to all other decades. They reveal the unique themes, concerns, and vocabulary of each era.",
+		"aboutMethod": "Rankings are based on Weighted Log-Odds with Informative Dirichlet Prior, a statistical method that identifies words that are significantly more common in one time period compared to others."
+	},
+	"monarchs": {
+		"title": "Monarchs",
+		"description": "Compare the linguistic styles of different Danish monarchs through their signature words.",
+		"corpusSize": "{size} words spoken",
+		"signatureWords": "Signature Words",
+		"moreWords": "+{count} more",
+		"aboutTitle": "About This Analysis",
+		"aboutDescription": "These signature words are the most distinctive for each monarch compared to all other monarchs. They reflect each monarch's unique voice, priorities, and era.",
+		"aboutMethod": "Rankings are based on Weighted Log-Odds with Informative Dirichlet Prior, a statistical method that identifies words that are significantly more common in one monarch's speeches compared to others."
 	}
 }

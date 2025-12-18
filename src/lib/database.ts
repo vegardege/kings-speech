@@ -266,3 +266,127 @@ export const getWordsInMostSpeeches = cache(
 		}));
 	},
 );
+
+export interface SignatureWord {
+	word: string;
+	rank: number;
+	wloScore: number;
+	focalCount: number;
+	backgroundCount: number;
+	focalRate: number;
+	backgroundRate: number;
+	zScore: number;
+}
+
+export interface WLOComparison {
+	comparisonId: number;
+	comparisonType: string;
+	focalValue: string;
+	backgroundType: string;
+	alpha: number;
+	focalCorpusSize: number;
+	backgroundCorpusSize: number;
+	signatureWords: SignatureWord[];
+}
+
+export const getDecadeComparisons = cache((): WLOComparison[] => {
+	const db = getDatabase();
+
+	const comparisons = db
+		.prepare(
+			`
+			SELECT
+				comparison_id as comparisonId,
+				comparison_type as comparisonType,
+				focal_value as focalValue,
+				background_type as backgroundType,
+				alpha,
+				focal_corpus_size as focalCorpusSize,
+				background_corpus_size as backgroundCorpusSize
+			FROM wlo_comparisons
+			WHERE comparison_type = 'decade'
+			ORDER BY focal_value ASC
+		`,
+		)
+		.all() as Omit<WLOComparison, "signatureWords">[];
+
+	return comparisons.map((comparison) => {
+		const words = db
+			.prepare(
+				`
+				SELECT
+					word,
+					rank,
+					wlo_score as wloScore,
+					focal_count as focalCount,
+					background_count as backgroundCount,
+					focal_rate as focalRate,
+					background_rate as backgroundRate,
+					z_score as zScore
+				FROM wlo_words
+				WHERE comparison_id = ?
+				ORDER BY rank ASC
+			`,
+			)
+			.all(comparison.comparisonId) as SignatureWord[];
+
+		return {
+			...comparison,
+			signatureWords: words,
+		};
+	});
+});
+
+export const getMonarchComparisons = cache((): WLOComparison[] => {
+	const db = getDatabase();
+
+	const comparisons = db
+		.prepare(
+			`
+			SELECT
+				comparison_id as comparisonId,
+				comparison_type as comparisonType,
+				focal_value as focalValue,
+				background_type as backgroundType,
+				alpha,
+				focal_corpus_size as focalCorpusSize,
+				background_corpus_size as backgroundCorpusSize
+			FROM wlo_comparisons
+			WHERE comparison_type = 'monarch'
+			ORDER BY
+				CASE focal_value
+					WHEN 'Christian X' THEN 1
+					WHEN 'Frederik IX' THEN 2
+					WHEN 'Margrethe II' THEN 3
+					WHEN 'Frederik X' THEN 4
+				END
+		`,
+		)
+		.all() as Omit<WLOComparison, "signatureWords">[];
+
+	return comparisons.map((comparison) => {
+		const words = db
+			.prepare(
+				`
+				SELECT
+					word,
+					rank,
+					wlo_score as wloScore,
+					focal_count as focalCount,
+					background_count as backgroundCount,
+					focal_rate as focalRate,
+					background_rate as backgroundRate,
+					z_score as zScore
+				FROM wlo_words
+				WHERE comparison_id = ?
+				ORDER BY rank ASC
+			`,
+			)
+			.all(comparison.comparisonId) as SignatureWord[];
+
+		return {
+			...comparison,
+			signatureWords: words,
+		};
+	});
+});
