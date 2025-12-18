@@ -337,6 +337,41 @@ export const getDecadeComparisons = cache((): WLOComparison[] => {
 	});
 });
 
+export interface MonarchStats {
+	monarch: string;
+	speechCount: number;
+	firstYear: number;
+	lastYear: number;
+	avgWords: number;
+}
+
+export const getMonarchStats = cache((): MonarchStats[] => {
+	const db = getDatabase();
+
+	const stats = db
+		.prepare(
+			`
+			SELECT
+				s.monarch,
+				COUNT(DISTINCT s.year) as speechCount,
+				MIN(s.year) as firstYear,
+				MAX(s.year) as lastYear,
+				AVG(wc.total_words) as avgWords
+			FROM speech s
+			LEFT JOIN (
+				SELECT year, SUM(count) as total_words
+				FROM word_count
+				GROUP BY year
+			) wc ON s.year = wc.year
+			GROUP BY s.monarch
+			ORDER BY firstYear
+		`,
+		)
+		.all() as MonarchStats[];
+
+	return stats;
+});
+
 export const getMonarchComparisons = cache((): WLOComparison[] => {
 	const db = getDatabase();
 
