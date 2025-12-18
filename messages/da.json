@@ -113,7 +113,8 @@
 	"decades": {
 		"title": "Årtier",
 		"description": "Udforsk de mest karakteristiske ord fra hvert årti af kongelige nytårstaler.",
-		"corpusSize": "{size} ord sagt",
+		"monarchsLabel": "Monarker",
+		"avgWordsLabel": "Ord per tale",
 		"signatureWords": "Signaturord",
 		"moreWords": "+{count} flere",
 		"aboutTitle": "Om denne analyse",

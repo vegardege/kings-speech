@@ -372,6 +372,79 @@ export const getMonarchStats = cache((): MonarchStats[] => {
 	return stats;
 });
 
+export interface DecadeStats {
+	decade: string;
+	monarchs: string;
+	avgWords: number;
+}
+
+export const getDecadeStats = cache((): DecadeStats[] => {
+	const db = getDatabase();
+
+	// First, get the basic stats for each decade
+	const rawStats = db
+		.prepare(
+			`
+			SELECT
+				CASE
+					WHEN s.year < 1950 THEN '1940s'
+					WHEN s.year < 1960 THEN '1950s'
+					WHEN s.year < 1970 THEN '1960s'
+					WHEN s.year < 1980 THEN '1970s'
+					WHEN s.year < 1990 THEN '1980s'
+					WHEN s.year < 2000 THEN '1990s'
+					WHEN s.year < 2010 THEN '2000s'
+					WHEN s.year < 2020 THEN '2010s'
+					ELSE '2020s'
+				END as decade,
+				AVG(wc.total_words) as avgWords,
+				MIN(s.year) as firstYear
+			FROM speech s
+			LEFT JOIN (
+				SELECT year, SUM(count) as total_words
+				FROM word_count
+				GROUP BY year
+			) wc ON s.year = wc.year
+			GROUP BY decade
+			ORDER BY firstYear
+		`,
+		)
+		.all() as Array<{ decade: string; avgWords: number; firstYear: number }>;
+
+	// For each decade, get the distinct monarchs
+	const stats = rawStats.map((stat) => {
+		const monarchList = db
+			.prepare(
+				`
+				SELECT monarch, MIN(year) as firstYear
+				FROM speech
+				WHERE CASE
+					WHEN year < 1950 THEN '1940s'
+					WHEN year < 1960 THEN '1950s'
+					WHEN year < 1970 THEN '1960s'
+					WHEN year < 1980 THEN '1970s'
+					WHEN year < 1990 THEN '1980s'
+					WHEN year < 2000 THEN '1990s'
+					WHEN year < 2010 THEN '2000s'
+					WHEN year < 2020 THEN '2010s'
+					ELSE '2020s'
+				END = ?
+				GROUP BY monarch
+				ORDER BY firstYear
+			`,
+			)
+			.all(stat.decade) as Array<{ monarch: string; firstYear: number }>;
+
+		return {
+			decade: stat.decade,
+			monarchs: monarchList.map((m) => m.monarch).join(", "),
+			avgWords: stat.avgWords,
+		};
+	});
+
+	return stats;
+});
+
 export const getMonarchComparisons = cache((): WLOComparison[] => {
 	const db = getDatabase();
 

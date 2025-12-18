@@ -113,7 +113,8 @@
 	"decades": {
 		"title": "Decades",
 		"description": "Explore the most distinctive words from each decade of royal New Year's Eve speeches.",
-		"corpusSize": "{size} words spoken",
+		"monarchsLabel": "Monarchs",
+		"avgWordsLabel": "Words Per Speech",
 		"signatureWords": "Signature Words",
 		"moreWords": "+{count} more",
 		"aboutTitle": "About This Analysis",
