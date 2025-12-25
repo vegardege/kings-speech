@@ -7,6 +7,7 @@
 		"home": "Hjem",
 		"words": "Ord",
 		"odds": "Odds",
+		"speeches": "Taler",
 		"decades": "Årtier",
 		"monarchs": "Monarker",
 		"search": "Søg",
@@ -140,5 +141,15 @@
 		"aboutTitle": "Om denne analyse",
 		"aboutDescription": "Disse signaturord er de mest karakteristiske for hver monark sammenlignet med alle andre monarker. De afspejler hver monarks unikke stemme, prioriteter og æra.",
 		"aboutMethod": "Rangeringer er baseret på Weighted Log-Odds with Informative Dirichlet Prior, en statistisk metode der identificerer ord som er markant mere almindelige i én monarks taler sammenlignet med andre."
+	},
+	"speeches": {
+		"title": "Taler",
+		"description": "En tidslinje over alle nytårstaler, organiseret efter monark.",
+		"words": "ord",
+		"significantEvents": "Betydningsfulde begivenheder",
+		"yearRange": "År",
+		"avgWordsLabel": "Gns. ord per tale",
+		"aboutTitle": "Om denne tidslinje",
+		"aboutDescription": "Denne tidslinje viser alle nytårstaler fra 1941 til i dag, organiseret efter monark. Klik på et år for at se detaljer. Ordtællingsbaren sammenligner hver tales længde med den længste tale nogensinde. Betydningsfulde begivenheder er de store temaer nævnt i hver tale."
 	}
 }

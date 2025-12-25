@@ -7,6 +7,7 @@
 		"home": "Home",
 		"words": "Words",
 		"odds": "Odds",
+		"speeches": "Speeches",
 		"decades": "Decades",
 		"monarchs": "Monarchs",
 		"search": "Search",
@@ -140,5 +141,15 @@
 		"aboutTitle": "About This Analysis",
 		"aboutDescription": "These signature words are the most distinctive for each monarch compared to all other monarchs. They reflect each monarch's unique voice, priorities, and era.",
 		"aboutMethod": "Rankings are based on Weighted Log-Odds with Informative Dirichlet Prior, a statistical method that identifies words that are significantly more common in one monarch's speeches compared to others."
+	},
+	"speeches": {
+		"title": "Speeches",
+		"description": "A timeline of all New Year's Eve speeches, organized by monarch.",
+		"words": "words",
+		"significantEvents": "Significant events",
+		"yearRange": "Years",
+		"avgWordsLabel": "Avg Words Per Speech",
+		"aboutTitle": "About This Timeline",
+		"aboutDescription": "This timeline shows all New Year's Eve speeches from 1941 to the present, organized by monarch. Click any year to see details. The word count bar compares each speech's length to the longest speech ever given. Significant events are the major themes mentioned in each speech."
 	}
 }

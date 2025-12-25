@@ -560,3 +560,67 @@ export const getEntitiesInMostSpeeches = cache(
 		return results;
 	},
 );
+
+export interface SignificantEvent {
+	event: string;
+}
+
+export interface SpeechData {
+	year: number;
+	monarch: string;
+	wordCount: number;
+	significantEvents: SignificantEvent[];
+}
+
+export const getAllSpeeches = cache((): SpeechData[] => {
+	const db = getDatabase();
+
+	// Get all speeches with their monarchs
+	const speeches = db
+		.prepare("SELECT year, monarch FROM speech ORDER BY year")
+		.all() as { year: number; monarch: string }[];
+
+	// Get word counts for all years
+	const wordCounts = db
+		.prepare(
+			`
+			SELECT year, SUM(count) as total_words
+			FROM word_count
+			GROUP BY year
+		`,
+		)
+		.all() as { year: number; total_words: number }[];
+
+	const wordCountMap = new Map(
+		wordCounts.map((wc) => [wc.year, wc.total_words]),
+	);
+
+	// Get significant events for all years
+	const events = db
+		.prepare(
+			`
+			SELECT year, event
+			FROM speech_event
+			WHERE is_significant = 1
+			ORDER BY year, event
+		`,
+		)
+		.all() as { year: number; event: string }[];
+
+	// Group events by year
+	const eventsMap = new Map<number, SignificantEvent[]>();
+	for (const event of events) {
+		if (!eventsMap.has(event.year)) {
+			eventsMap.set(event.year, []);
+		}
+		eventsMap.get(event.year)?.push({ event: event.event });
+	}
+
+	// Combine all data
+	return speeches.map((speech) => ({
+		year: speech.year,
+		monarch: speech.monarch,
+		wordCount: wordCountMap.get(speech.year) ?? 0,
+		significantEvents: eventsMap.get(speech.year) ?? [],
+	}));
+});
