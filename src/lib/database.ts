@@ -498,3 +498,65 @@ export const getMonarchComparisons = cache((): WLOComparison[] => {
 		};
 	});
 });
+
+export interface EntityStats {
+	entity: string;
+	totalCount: number;
+	speechCount: number;
+}
+
+export const getMostUsedEntities = cache(
+	(limit: number, table: "person_count" | "place_count"): EntityStats[] => {
+		const db = getDatabase();
+		const entityColumn = table === "person_count" ? "person" : "place";
+
+		const results = db
+			.prepare(
+				`
+			SELECT
+				${entityColumn} as entity,
+				SUM(count) as totalCount,
+				COUNT(DISTINCT year) as speechCount
+			FROM ${table}
+			GROUP BY ${entityColumn}
+			ORDER BY totalCount DESC, speechCount DESC, ${entityColumn} ASC
+			LIMIT ?
+		`,
+			)
+			.all(limit) as {
+			entity: string;
+			totalCount: number;
+			speechCount: number;
+		}[];
+
+		return results;
+	},
+);
+
+export const getEntitiesInMostSpeeches = cache(
+	(limit: number, table: "person_count" | "place_count"): EntityStats[] => {
+		const db = getDatabase();
+		const entityColumn = table === "person_count" ? "person" : "place";
+
+		const results = db
+			.prepare(
+				`
+			SELECT
+				${entityColumn} as entity,
+				SUM(count) as totalCount,
+				COUNT(DISTINCT year) as speechCount
+			FROM ${table}
+			GROUP BY ${entityColumn}
+			ORDER BY speechCount DESC, totalCount DESC, ${entityColumn} ASC
+			LIMIT ?
+		`,
+			)
+			.all(limit) as {
+			entity: string;
+			totalCount: number;
+			speechCount: number;
+		}[];
+
+		return results;
+	},
+);

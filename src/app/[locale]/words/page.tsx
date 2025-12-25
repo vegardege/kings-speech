@@ -1,6 +1,8 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { EntitiesTable } from "@/components/EntitiesTable";
 import { WordsPageClient } from "@/components/WordsPageClient";
 import {
+	getMostUsedEntities,
 	getMostUsedWords,
 	getTotalSpeeches,
 	getWordsInMostSpeeches,
@@ -28,6 +30,10 @@ export default async function WordsListPage({ params }: WordsListPageProps) {
 	const mostSpeechesWithStopwords = getWordsInMostSpeeches(20, true);
 	const mostSpeechesWithoutStopwords = getWordsInMostSpeeches(20, false);
 
+	// Fetch persons and places data
+	const mostUsedPersons = getMostUsedEntities(20, "person_count");
+	const mostUsedPlaces = getMostUsedEntities(20, "place_count");
+
 	return (
 		<main className="min-h-screen bg-[#FAF9F7] px-4 py-8">
 			<div className="mx-auto max-w-4xl">
@@ -41,6 +47,33 @@ export default async function WordsListPage({ params }: WordsListPageProps) {
 					mostSpeechesWithoutStopwords={mostSpeechesWithoutStopwords}
 					totalSpeeches={totalSpeeches}
 				/>
+
+				{/* Persons & Places Section */}
+				<div className="mt-12 flex flex-wrap gap-6">
+					<section className="flex-1 min-w-[300px]">
+						<h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+							{t("personsTitle")}
+						</h2>
+						<EntitiesTable
+							entities={mostUsedPersons}
+							totalSpeeches={totalSpeeches}
+							showColumn="totalCount"
+							translationNamespace="wordsList"
+						/>
+					</section>
+
+					<section className="flex-1 min-w-[300px]">
+						<h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+							{t("placesTitle")}
+						</h2>
+						<EntitiesTable
+							entities={mostUsedPlaces}
+							totalSpeeches={totalSpeeches}
+							showColumn="totalCount"
+							translationNamespace="wordsList"
+						/>
+					</section>
+				</div>
 			</div>
 		</main>
 	);
