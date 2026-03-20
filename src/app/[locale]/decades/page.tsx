@@ -8,9 +8,6 @@ interface DecadesPageProps {
 	}>;
 }
 
-// Cache this page for 24 hours
-export const revalidate = 86400;
-
 export default async function DecadesPage({ params }: DecadesPageProps) {
 	const { locale } = await params;
 	setRequestLocale(locale);

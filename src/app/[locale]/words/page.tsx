@@ -14,9 +14,6 @@ interface WordsListPageProps {
 	}>;
 }
 
-// Cache this page for 24 hours
-export const revalidate = 86400;
-
 export default async function WordsListPage({ params }: WordsListPageProps) {
 	const { locale } = await params;
 	setRequestLocale(locale);
