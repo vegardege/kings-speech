@@ -2,9 +2,12 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { WordStatistics } from "@/components/WordStatistics";
 import { WordTimelineByDecade } from "@/components/WordTimelineByDecade";
 import { WordTimelineByMonarch } from "@/components/WordTimelineByMonarch";
+import { routing } from "@/i18n/routing";
 import {
+	getMostUsedWords,
 	getTotalSpeeches,
 	getWordCountsByYear,
+	getWordsInMostSpeeches,
 	getWordTotalCount,
 } from "@/lib/database";
 
@@ -15,7 +18,20 @@ interface WordPageProps {
 	}>;
 }
 
-// ISR: generated on first request, cached for 24 hours
+// Pre-render the top words shown on the words list page (same queries, deduplicated)
+export function generateStaticParams() {
+	const words = new Set([
+		...getMostUsedWords(20, true).map((w) => w.word),
+		...getMostUsedWords(20, false).map((w) => w.word),
+		...getWordsInMostSpeeches(20, true).map((w) => w.word),
+		...getWordsInMostSpeeches(20, false).map((w) => w.word),
+	]);
+	return routing.locales.flatMap((locale) =>
+		[...words].map((word) => ({ locale, word: encodeURIComponent(word) })),
+	);
+}
+
+// ISR fallback for all other words
 export const revalidate = 86400;
 export const dynamicParams = true;
 
