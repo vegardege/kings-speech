@@ -2,7 +2,9 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { WordStatistics } from "@/components/WordStatistics";
 import { WordTimelineByDecade } from "@/components/WordTimelineByDecade";
 import { WordTimelineByMonarch } from "@/components/WordTimelineByMonarch";
+import { routing } from "@/i18n/routing";
 import {
+	getAllOddsWords,
 	getDatabase,
 	getTotalSpeeches,
 	getWordCountsByYear,
@@ -16,8 +18,15 @@ interface OddsPageProps {
 	}>;
 }
 
-// ISR: generated on first request, cached for 24 hours
-export const revalidate = 86400;
+// Pre-render the 100 words with lowest odds (most likely to be mentioned) for all locales
+export function generateStaticParams() {
+	const oddsWords = getAllOddsWords().slice(0, 100);
+	return routing.locales.flatMap((locale) =>
+		oddsWords.map((item) => ({ locale, word: encodeURIComponent(item.word) })),
+	);
+}
+
+// ISR fallback for any words not in generateStaticParams (shouldn't happen, but safe)
 export const dynamicParams = true;
 
 export default async function OddsPage({ params }: OddsPageProps) {
