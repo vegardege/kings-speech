@@ -8,9 +8,6 @@ interface MonarchsPageProps {
 	}>;
 }
 
-// Cache this page for 24 hours
-export const revalidate = 86400;
-
 export default async function MonarchsPage({ params }: MonarchsPageProps) {
 	const { locale } = await params;
 	setRequestLocale(locale);

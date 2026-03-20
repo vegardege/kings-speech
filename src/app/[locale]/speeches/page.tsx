@@ -8,9 +8,6 @@ interface SpeechesPageProps {
 	}>;
 }
 
-// Cache this page for 24 hours
-export const revalidate = 86400;
-
 export default async function SpeechesPage({ params }: SpeechesPageProps) {
 	const { locale } = await params;
 	setRequestLocale(locale);

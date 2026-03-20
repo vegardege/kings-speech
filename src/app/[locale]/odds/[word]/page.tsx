@@ -16,9 +16,9 @@ interface OddsPageProps {
 	}>;
 }
 
-// Revalidate every 24 hours (data rarely changes)
-// Once generated, pages will be cached for 24h
+// ISR: generated on first request, cached for 24 hours
 export const revalidate = 86400;
+export const dynamicParams = true;
 
 export default async function OddsPage({ params }: OddsPageProps) {
 	const { locale, word: encodedWord } = await params;

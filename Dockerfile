@@ -18,6 +18,11 @@ COPY --from=install /tmp/dev/node_modules ./node_modules
 COPY . .
 
 ENV NODE_ENV=production
+ENV XDG_DATA_HOME=/app/data
+RUN mkdir -p /app/data/royal-pipes
+
+# Copy database into builder stage for static generation
+COPY data/royal-pipes/analytics.db /app/data/royal-pipes/analytics.db
 
 RUN npm run build
 
@@ -33,7 +38,7 @@ COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/messages ./messages
 
-# Ensure directory exists and copy database for runtime access
+# Ensure directory exists and copy database for ISR word pages
 RUN mkdir -p /app/data/royal-pipes
 COPY data/royal-pipes/analytics.db /app/data/royal-pipes/analytics.db
 
