@@ -4,9 +4,9 @@
 
 Beheading royalty has fallen out of fashion. The Danes, however, have found different use for their monarchs: betting on which words will be used in the yearly Nytårstale (NYE speech).
 
-[King's Speech](https://kingsspeech.pebblepatch.dev/) is a web application providing statistics and analysis about the Danish Monarch's yearly New Year's Eve speeches. It serves as an interactive exploration tool for linguistic patterns and historical trends in Danish royal New Year's Eve speeches.
+_King's Speech_ is a web application providing statistics and analysis about the Danish Monarch's yearly New Year's Eve speeches. It serves as an interactive exploration tool for linguistic patterns and historical trends in Danish royal New Year's Eve speeches.
 
-The page is under active development and will be updated before NYE 2025.
+**Live Demo:** https://kingsspeech.pebblepatch.dev/
 
 ## Quick Start
 
