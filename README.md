@@ -8,6 +8,10 @@ _King's Speech_ is a web application providing statistics and analysis about the
 
 **Live Demo:** https://kingsspeech.pebblepatch.dev/
 
+## Screenshot
+
+![Web site screenshot](assets/kingsspeech.png)
+
 ## Quick Start
 
 ### Run with Docker (pre-built image)
