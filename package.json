@@ -1,18 +1,22 @@
 {
 	"name": "kings-speech",
 	"version": "0.1.0",
-	"type": "module",
+	"description": "Statistics and analysis of the Danish Monarch's New Year's Eve speeches",
+	"author": "Vegard Egeland",
+	"license": "MIT",
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"check": "npx @biomejs/biome check .",
-		"check:fix": "npx @biomejs/biome check . --write",
-		"lint": "npx @biomejs/biome lint .",
-		"lint:fix": "npx @biomejs/biome lint . --write",
-		"format": "npx @biomejs/biome format .",
-		"format:fix": "npx @biomejs/biome format . --write"
+		"check": "biome check .",
+		"check:fix": "biome check . --write",
+		"lint": "biome lint .",
+		"lint:fix": "biome lint . --write",
+		"format": "biome format .",
+		"format:fix": "biome format . --write",
+		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
 		"better-sqlite3": "^12.8.0",
